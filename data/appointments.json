@@ -1,0 +1,18 @@
+{
+  "appointments": [
+    {
+      "department": "Nội tổng hợp",
+      "doctor": "BS. Nguyễn Văn A",
+      "date": "2025-10-05",
+      "time": "09:00",
+      "patient": "Nguyễn Thị B"
+    },
+    {
+      "department": "Răng hàm mặt",
+      "doctor": "BS. Lê Thị B",
+      "date": "2025-10-05",
+      "time": "10:00",
+      "patient": "Nguyễn Thị C"
+    }
+  ]
+}
