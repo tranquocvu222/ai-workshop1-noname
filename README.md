@@ -35,17 +35,32 @@ python src/main.py
 ### Các lệnh có sẵn:
 
 - `/help` - Hiển thị danh sách lệnh khả dụng
+- `/book` - Bắt đầu quy trình đặt lịch khám
 - `/history` - Hiển thị lịch sử tương tác trước đó
 - `/clear` - Xóa toàn bộ màn hình CLI
 - `/save last` - Lưu đoạn hội thoại cuối cùng ra file text
 - `/check slots` - Kiểm tra lịch trống của từng khoa
+- `/my appointments` - Xem lịch khám cá nhân
 - `/exit` - Thoát ứng dụng
 
 ## 🧩 Tính năng
 
-1. **Tư vấn dựa trên triệu chứng**: Phân tích triệu chứng của bệnh nhân và gợi ý khoa phù hợp
-2. **Kiểm tra lịch trống**: Xem khung giờ khám còn trống của từng khoa
-3. **Trả lời câu hỏi**: Hỗ trợ giải đáp các thắc mắc liên quan đến phòng khám
+1. **Đặt lịch thông minh**: Phân tích triệu chứng và gợi ý chuyên khoa phù hợp
+2. **Tư vấn dựa trên triệu chứng**: Phân tích triệu chứng của bệnh nhân và đề xuất bác sĩ
+3. **Kiểm tra lịch trống**: Xem khung giờ khám còn trống của từng khoa
+4. **Quản lý lịch hẹn**: Thêm và xem lịch khám
+5. **Trả lời câu hỏi**: Hỗ trợ giải đáp các thắc mắc liên quan đến phòng khám
+6. **Phản hồi kiểu stream**: Hiển thị phản hồi AI từng ký tự một thay vì đợi toàn bộ phản hồi hoàn thành
+
+## 🏥 Quy trình đặt lịch khám
+
+1. Nhập `/book` hoặc trò chuyện tự nhiên với từ khóa "đặt lịch khám"
+2. Nhập tên bệnh nhân
+3. Mô tả triệu chứng
+4. AI phân tích triệu chứng và gợi ý chuyên khoa phù hợp
+5. Chọn khoa và bác sĩ
+6. Chọn ngày và giờ khám từ các slot còn trống
+7. Xác nhận đặt lịch
 
 ## 🗂 Cấu trúc dự án
 
@@ -72,3 +87,4 @@ medical-assistant/
 - Ứng dụng chỉ **sử dụng Azure OpenAI** cho việc sinh ngôn ngữ tự nhiên
 - Dữ liệu lịch khám được quản lý **cục bộ (offline)**
 - Không lưu hoặc gửi dữ liệu cá nhân ra ngoài
+- Phản hồi được hiển thị theo kiểu stream, tạo trải nghiệm tương tác tự nhiên hơn

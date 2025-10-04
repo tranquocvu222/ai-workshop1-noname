@@ -1,6 +1,8 @@
 import os
 import json
-from typing import Dict, List, Optional, Union, Any
+import re
+from datetime import datetime, timedelta
+from typing import Dict, List, Optional, Union, Any, Callable, Generator
 from dotenv import load_dotenv
 import openai
 
@@ -29,7 +31,7 @@ class AzureOpenAIClient:
     
     def generate_response(self, user_input: str, conversation_history: Optional[List[Dict[str, str]]] = None) -> str:
         """
-        Generate a response using Azure OpenAI.
+        Generate a complete response using Azure OpenAI (non-streaming).
         
         Args:
             user_input: The user's query
@@ -77,6 +79,75 @@ class AzureOpenAIClient:
             
         except Exception as e:
             return f"⚠️ Error generating response: {str(e)}"
+    
+    def generate_response_stream(self, user_input: str, conversation_history: Optional[List[Dict[str, str]]] = None) -> Generator[str, None, None]:
+        """
+        Generate a streaming response using Azure OpenAI.
+        
+        Args:
+            user_input: The user's query
+            conversation_history: Optional list of previous conversation messages
+            
+        Yields:
+            Chunks of the generated response text as they become available
+        """
+        if not self.is_configured():
+            yield "⚠️ Azure OpenAI client is not properly configured. Please check your .env file."
+            return
+        
+        try:
+            # Prepare conversation messages
+            messages = conversation_history or []
+            
+            # Define system message for medical assistant behavior
+            system_message = {
+                "role": "system", 
+                "content": f"""Bạn là trợ lý ảo của phòng khám đa khoa. 
+                Nhiệm vụ của bạn là phân tích triệu chứng, tư vấn chuyên khoa phù hợp, 
+                và trả lời các câu hỏi liên quan đến quy trình khám bệnh. 
+                Giọng điệu thân thiện, chuyên nghiệp. 
+                Chỉ trả lời các câu hỏi liên quan đến y tế và dịch vụ phòng khám.
+                Không trả lời các câu hỏi không liên quan.
+                
+                Hôm nay là ngày {datetime.now().strftime('%d/%m/%Y')}.
+                """
+            }
+            
+            # Add system message if not already present
+            if not messages or messages[0].get("role") != "system":
+                messages = [system_message] + messages
+            
+            # Add user's new message
+            messages.append({"role": "user", "content": user_input})
+            
+            # Call Azure OpenAI API with streaming enabled
+            response_stream = openai.ChatCompletion.create(
+                engine=self.deployment_name,
+                messages=messages,
+                max_tokens=500,
+                temperature=0.7,
+                stream=True
+            )
+            
+            # Yield chunks as they arrive
+            collected_chunks = []
+            collected_messages = ""
+            
+            for chunk in response_stream:
+                # Extract content from chunk if available
+                if hasattr(chunk, "choices") and chunk.choices and len(chunk.choices) > 0:
+                    content = chunk.choices[0].get("delta", {}).get("content")
+                    if content is not None:
+                        collected_chunks.append(content)
+                        collected_messages += content
+                        yield content
+            
+            # Return full message if nothing was yielded (this should rarely happen)
+            if not collected_chunks:
+                yield ""
+                
+        except Exception as e:
+            yield f"⚠️ Error generating streaming response: {str(e)}"
             
     def analyze_symptoms(self, symptoms: str) -> Dict[str, Any]:
         """
@@ -92,10 +163,20 @@ class AzureOpenAIClient:
             return {"error": "Azure OpenAI client is not properly configured"}
         
         try:
-            # Create prompt for symptom analysis
+            # Create prompt for symptom analysis with department codes mapping and current date context
+            today = datetime.now()
             prompt = f"""
+            Hôm nay là ngày {today.strftime('%d/%m/%Y')}.
+            
             Phân tích các triệu chứng sau và cung cấp thông tin về:
-            1. Chuyên khoa phù hợp để thăm khám (từ danh sách: Nội tổng hợp, Răng hàm mặt, Tai mũi họng, Mắt, Da liễu, Nhi khoa)
+            1. Chuyên khoa phù hợp để thăm khám. Dựa trên danh sách sau:
+               - D01: Nội tổng hợp - Khám tổng quát, điều trị các bệnh thông thường
+               - D02: Răng hàm mặt - Chăm sóc răng miệng, chỉnh nha, tiểu phẫu
+               - D03: Tai mũi họng - Khám, điều trị các bệnh lý về tai, mũi, họng
+               - D04: Mắt - Khám thị lực, điều trị cận thị, loạn thị
+               - D05: Da liễu - Điều trị mụn, viêm da, dị ứng, lão hóa
+               - D06: Nhi khoa - Khám trẻ em, tư vấn dinh dưỡng, tiêm chủng
+            
             2. Các bệnh lý tiềm năng liên quan đến triệu chứng
             3. Mức độ nghiêm trọng (Thấp/Trung bình/Cao)
             
@@ -103,7 +184,8 @@ class AzureOpenAIClient:
             
             Trả về kết quả dưới dạng JSON với định dạng sau:
             {{
-                "departments": ["Tên khoa 1", "Tên khoa 2"],
+                "department_codes": ["D01", "D03"], // Mã khoa phù hợp
+                "departments": ["Nội tổng hợp", "Tai mũi họng"], // Tên khoa phù hợp
                 "possible_conditions": ["Bệnh 1", "Bệnh 2"],
                 "severity": "Mức độ",
                 "recommendation": "Lời khuyên ngắn gọn"
@@ -127,7 +209,6 @@ class AzureOpenAIClient:
             response_text = response.choices[0].message.content
             
             # Find JSON content within the response (in case there's additional text)
-            import re
             json_match = re.search(r'({[\s\S]*})', response_text)
             if json_match:
                 response_text = json_match.group(1)
@@ -142,3 +223,73 @@ class AzureOpenAIClient:
                 
         except Exception as e:
             return {"error": f"Error analyzing symptoms: {str(e)}"}
+    
+    def get_doctor_suggestions(self, department_code: str) -> List[Dict[str, str]]:
+        """
+        Get suggested doctors for a specific department.
+        
+        Args:
+            department_code: Department code (e.g., 'D01')
+            
+        Returns:
+            List of doctor information dictionaries
+        """
+        if not self.is_configured():
+            return [{"error": "Azure OpenAI client is not properly configured"}]
+        
+        try:
+            dept_names = {
+                "D01": "Nội tổng hợp",
+                "D02": "Răng hàm mặt",
+                "D03": "Tai mũi họng",
+                "D04": "Mắt",
+                "D05": "Da liễu",
+                "D06": "Nhi khoa"
+            }
+            
+            dept_name = dept_names.get(department_code, "Unknown")
+            
+            prompt = f"""
+            Gợi ý 3 bác sĩ làm việc tại khoa {dept_name} ({department_code}).
+            
+            Trả về kết quả dưới dạng JSON với định dạng sau:
+            {{
+                "doctors": [
+                    {{"id": "BS001", "name": "Tên Bác Sĩ", "specialty": "Chuyên khoa", "experience": "Số năm kinh nghiệm"}},
+                    {{"id": "BS002", "name": "Tên Bác Sĩ", "specialty": "Chuyên khoa", "experience": "Số năm kinh nghiệm"}},
+                    {{"id": "BS003", "name": "Tên Bác Sĩ", "specialty": "Chuyên khoa", "experience": "Số năm kinh nghiệm"}}
+                ]
+            }}
+            
+            Tất cả thông tin cần hợp lý và chuyên nghiệp. Tên bác sĩ phải là tên Việt Nam.
+            """
+            
+            messages = [
+                {"role": "system", "content": "Bạn là trợ lý y tế, chuyên cung cấp thông tin về bác sĩ."},
+                {"role": "user", "content": prompt}
+            ]
+            
+            # Call Azure OpenAI API
+            response = openai.ChatCompletion.create(
+                engine=self.deployment_name,
+                messages=messages,
+                max_tokens=500,
+                temperature=0.7
+            )
+            
+            # Extract and parse JSON response
+            response_text = response.choices[0].message.content
+            
+            # Find JSON content within the response
+            json_match = re.search(r'({[\s\S]*})', response_text)
+            if json_match:
+                response_text = json_match.group(1)
+            
+            try:
+                result = json.loads(response_text)
+                return result.get("doctors", [])
+            except json.JSONDecodeError:
+                return [{"error": "Failed to parse doctor suggestions"}]
+                
+        except Exception as e:
+            return [{"error": f"Error getting doctor suggestions: {str(e)}"}]
