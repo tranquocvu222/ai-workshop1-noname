@@ -167,6 +167,19 @@ class Scheduler:
             if dept["code"] == code:
                 return dept
         return None
+
+    def get_department_name(self, code: str) -> str:
+        """
+        Get department name from code.
+        
+        Args:
+            code: Department code (e.g., 'D01')
+            
+        Returns:
+            Department name or empty string if not found
+        """
+        dept = self.get_department_by_code(code)
+        return dept["name"] if dept else ""
     
     def get_appointments_for_patient(self, patient_name: str) -> List[Dict[str, Any]]:
         """

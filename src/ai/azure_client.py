@@ -141,7 +141,18 @@ THÔNG TIN BỔ SUNG:
             # Prepare conversation messages
             messages = conversation_history or []
             
-            # Define system message with enhanced prompt engineering
+            # Create doctor info string for the prompt
+            doctor_info = ""
+            for doc in self.doctors_data.get("doctors", []):
+                doctor_info += f"- {doc.get('id', '')}: {doc.get('name', '')}, {doc.get('department_code', '')}, {doc.get('specialty', '')}, {doc.get('experience', '')}\n"
+            
+            # Create department info string
+            department_info = ""
+            for dept in self.departments_data.get("departments", []):
+                dept_code = dept.get("code", "")
+                department_info += f"- {dept_code}: {dept.get('name', '')}, {dept.get('description', '')}\n"
+            
+            # Define system message with enhanced prompt engineering and doctor data directly included
             system_message = {
                 "role": "system", 
                 "content": f"""Bạn là trợ lý y tế thông minh tại phòng khám đa khoa, tên là Med Assistant.
@@ -166,6 +177,17 @@ GIỚI HẠN:
 THÔNG TIN BỔ SUNG:
 - Hôm nay là ngày {datetime.now().strftime('%d/%m/%Y')}
 - Phòng khám làm việc từ 8:00 - 17:00, từ thứ Hai đến thứ Bảy
+
+DANH SÁCH CHUYÊN KHOA:
+{department_info}
+
+DANH SÁCH BÁC SĨ:
+{doctor_info}
+
+LƯU Ý QUAN TRỌNG:
+- Khi người dùng hỏi về bác sĩ, hãy sử dụng thông tin từ danh sách bác sĩ ở trên.
+- Khi được yêu cầu gợi ý bác sĩ dựa trên triệu chứng, hãy phân tích triệu chứng, xác định chuyên khoa phù hợp, sau đó gợi ý bác sĩ từ danh sách.
+- LUÔN sử dụng danh sách bác sĩ có sẵn thay vì nói rằng bạn không có thông tin.
 """
             }
             

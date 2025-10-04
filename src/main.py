@@ -105,6 +105,7 @@ def display_help():
     table.add_row("/clear", "Xóa toàn bộ màn hình CLI")
     table.add_row("/save last", "Lưu đoạn hội thoại cuối cùng ra file text")
     table.add_row("/check slots", "Kiểm tra lịch trống của từng khoa")
+    table.add_row("/doctors", "Xem danh sách bác sĩ theo khoa")
     table.add_row("/my appointments", "Xem lịch khám cá nhân")
     table.add_row("/exit", "Thoát ứng dụng")
     
@@ -245,22 +246,32 @@ def display_doctors(doctors: List[Dict[str, str]]):
         ))
         return
     
+    # Check for error entries
+    error_doctors = [doc for doc in doctors if "error" in doc]
+    if error_doctors:
+        for doc in error_doctors:
+            console.print(Panel(
+                doc["error"],
+                title="[bold]Error[/bold]",
+                border_style="red",
+                box=ROUNDED
+            ))
+        return
+    
     table = Table(title="Danh sách bác sĩ", box=ROUNDED, border_style="blue")
     table.add_column("ID", style="bold cyan")
     table.add_column("Tên bác sĩ", style="bold green")
     table.add_column("Chuyên khoa", style="magenta")
     table.add_column("Kinh nghiệm", style="yellow")
+    table.add_column("Học vấn", style="blue italic")
     
     for doctor in doctors:
-        # Skip error entries
-        if "error" in doctor:
-            continue
-            
         table.add_row(
             doctor.get("id", "N/A"),
             doctor.get("name", "N/A"),
             doctor.get("specialty", "N/A"),
-            doctor.get("experience", "N/A")
+            doctor.get("experience", "N/A"),
+            doctor.get("education", "N/A") if "education" in doctor else ""
         )
     
     console.print(table)
@@ -615,6 +626,77 @@ def start_booking_process():
     # Reset booking
     reset_booking()
 
+def display_department_doctors(department_code: str):
+    """Display doctors for a specific department."""
+    doctors = ai_client.get_doctor_suggestions(department_code)
+    if doctors and not any("error" in doc for doc in doctors):
+        display_doctors(doctors)
+    else:
+        console.print(Panel(
+            "Không tìm thấy thông tin bác sĩ cho khoa này.",
+            title="[bold]Info[/bold]",
+            border_style="yellow",
+            box=ROUNDED
+        ))
+
+def recommend_doctors_based_on_symptoms(symptoms: str):
+    """
+    Analyze symptoms and suggest appropriate doctors.
+    
+    Args:
+        symptoms: Description of symptoms
+    """
+    console.print("[italic]Đang phân tích triệu chứng...[/italic]")
+    
+    # Analyze symptoms to get recommended departments
+    analysis = ai_client.analyze_symptoms(symptoms)
+    
+    if "error" in analysis:
+        console.print(Panel(
+            f"Không thể phân tích triệu chứng: {analysis['error']}",
+            title="[bold]Error[/bold]",
+            border_style="red",
+            box=ROUNDED
+        ))
+        return
+    
+    # Display analysis results
+    display_symptom_analysis(analysis)
+    
+    # Get department codes from analysis
+    department_codes = analysis.get("department_codes", [])
+    if not department_codes and "departments" in analysis:
+        # Try to map department names to codes
+        departments = scheduler.get_departments()
+        dept_map = {dept["name"].lower(): dept["code"] for dept in departments}
+        
+        for dept_name in analysis.get("departments", []):
+            if dept_name.lower() in dept_map:
+                department_codes.append(dept_map[dept_name.lower()])
+    
+    if not department_codes:
+        console.print(Panel(
+            "Không thể xác định khoa phù hợp từ triệu chứng.",
+            title="[bold]Warning[/bold]",
+            border_style="yellow",
+            box=ROUNDED
+        ))
+        return
+    
+    # For each department code, get and display doctors
+    console.print(Panel(
+        "Dựa trên triệu chứng của bạn, tôi gợi ý các bác sĩ sau:",
+        title="[bold]Gợi ý bác sĩ[/bold]",
+        border_style="blue",
+        box=ROUNDED
+    ))
+    
+    for dept_code in department_codes[:2]:  # Limit to top 2 departments to avoid information overload
+        dept_name = scheduler.get_department_name(dept_code)
+        console.print(f"\n[bold cyan]Khoa {dept_name} ({dept_code}):[/bold cyan]")
+        doctors = ai_client.get_doctor_suggestions(dept_code)
+        display_doctors(doctors)
+
 def suggest_related_command(user_input: str) -> Optional[str]:
     """
     Suggest a related command based on user input.
@@ -663,90 +745,6 @@ def suggest_related_command(user_input: str) -> Optional[str]:
     
     return None
 
-def process_command(command: str) -> bool:
-    """
-    Process special commands.
-    
-    Args:
-        command: User input command
-        
-    Returns:
-        True if command was handled, False otherwise
-    """
-    # Strip leading '/' if present
-    cmd = command.lstrip("/").lower().strip()
-    
-    if cmd == "help":
-        display_help()
-        return True
-    
-    elif cmd == "book":
-        start_booking_process()
-        return True
-    
-    elif cmd == "history":
-        if not conversation_history:
-            console.print(Panel(
-                "No conversation history.",
-                title="[bold]Info[/bold]",
-                border_style="yellow",
-                box=ROUNDED
-            ))
-        else:
-            history_table = Table(title="Conversation History", box=ROUNDED, border_style="blue")
-            history_table.add_column("Role", style="bold cyan")
-            history_table.add_column("Message", style="white")
-            
-            for msg in conversation_history:
-                if msg["role"] == "user":
-                    history_table.add_row("User", msg["content"])
-                elif msg["role"] == "assistant":
-                    history_table.add_row("Assistant", msg["content"])
-            
-            console.print(history_table)
-        return True
-    
-    elif cmd == "clear":
-        os.system("cls" if os.name == "nt" else "clear")
-        display_welcome_message()
-        return True
-    
-    elif cmd == "save last":
-        save_conversation()
-        return True
-    
-    elif cmd == "check slots":
-        # Ask for date
-        date_str = Prompt.ask(
-            "[bold cyan]Ngày (có thể nhập: hôm nay, ngày mai, mốt, DD/MM/YYYY)[/bold cyan]", 
-            default=datetime.now().strftime("%d/%m/%Y")
-        )
-        
-        # Ask for department (optional)
-        display_departments()
-        department = Prompt.ask("[bold cyan]Tên khoa (để trống để xem tất cả)[/bold cyan]", default="")
-        
-        if not department:
-            department = None
-            
-        check_available_slots(date_str, department)
-        return True
-    
-    elif cmd == "my appointments":
-        view_my_appointments()
-        return True
-        
-    elif cmd == "exit":
-        console.print(Panel(
-            "Goodbye!",
-            title="[bold]Info[/bold]",
-            border_style="yellow",
-            box=ROUNDED
-        ))
-        sys.exit(0)
-    
-    return False
-
 def process_user_input(user_input: str):
     """
     Process user input and generate appropriate response.
@@ -766,6 +764,38 @@ def process_user_input(user_input: str):
         else:
             # Always display available commands after processing a command
             display_available_commands()
+        return
+    
+    # Check for doctor recommendation request
+    doctor_recommendation_patterns = [
+        r"(gợi ý|giới thiệu|tư vấn|suggest|recommend).*(bác sĩ|doctor|bs)",
+        r"(bác sĩ|doctor|bs).*(phù hợp|thích hợp|nên gặp|nên khám)",
+        r"(ai|bác sĩ nào|doctor).*(khám|chữa|điều trị)",
+        r"(triệu chứng).*(bác sĩ|doctor|bs)",
+        r"(bác sĩ).*(triệu chứng|symptom)",
+        r"(danh sách|list) (bác sĩ|bac si|doctor)",
+        r"(bác sĩ|doctor) (ở|tại|của|trong) (khoa|chuyên khoa|department)",
+    ]
+    
+    if any(re.search(pattern, user_input.lower()) for pattern in doctor_recommendation_patterns):
+        # Extract symptoms from user input or ask for them
+        symptoms_match = re.search(r"(triệu chứng|symptom).*(là|như|gồm|:)(.+)", user_input.lower())
+        
+        if symptoms_match:
+            symptoms = symptoms_match.group(3).strip()
+            recommend_doctors_based_on_symptoms(symptoms)
+        else:
+            symptoms = Prompt.ask("[bold cyan]Vui lòng mô tả triệu chứng của bạn[/bold cyan]")
+            recommend_doctors_based_on_symptoms(symptoms)
+        
+        # Store interaction in history
+        conversation_history.append({"role": "user", "content": user_input})
+        conversation_history.append({
+            "role": "assistant", 
+            "content": "Tôi đã phân tích triệu chứng và gợi ý các bác sĩ phù hợp cho bạn."
+        })
+        
+        display_available_commands()
         return
     
     # Check for booking intent in natural language
@@ -811,6 +841,11 @@ def process_user_input(user_input: str):
             today = datetime.now().strftime("%d/%m/%Y")
             user_input = f"Hôm nay là {today}. {user_input}"
             break
+    
+    # Check if user is asking specifically about doctors
+    if "bác sĩ" in user_input.lower() or "doctor" in user_input.lower() or "bs" in user_input.lower():
+        # Add context about doctors data availability
+        user_input = f"Hãy sử dụng thông tin từ danh sách bác sĩ có sẵn để trả lời. {user_input}"
     
     # Store user message in history
     conversation_history.append({"role": "user", "content": user_input})
