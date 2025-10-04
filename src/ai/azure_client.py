@@ -18,12 +18,38 @@ class AzureOpenAIClient:
         self.api_key = os.getenv("AZURE_OPENAI_API_KEY")
         self.deployment_name = os.getenv("AZURE_DEPLOYMENT_NAME")
         
+        # Load department and doctor data
+        self.departments_data = self._load_departments_data()
+        self.doctors_data = self._load_doctors_data()
+        
         # Configure OpenAI client
         if self.api_endpoint and self.api_key:
             openai.api_type = "azure"
             openai.api_base = self.api_endpoint
             openai.api_key = self.api_key
             openai.api_version = "2023-05-15"  # Update with appropriate version
+    
+    def _load_departments_data(self) -> Dict:
+        """Load department data from JSON file."""
+        try:
+            data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 
+                                    "data/departments.json")
+            with open(data_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading departments data: {e}")
+            return {"departments": []}
+    
+    def _load_doctors_data(self) -> Dict:
+        """Load doctors data from JSON file."""
+        try:
+            data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 
+                                    "data/doctors.json")
+            with open(data_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading doctors data: {e}")
+            return {"doctors": []}
         
     def is_configured(self) -> bool:
         """Check if Azure OpenAI client is properly configured."""
@@ -47,16 +73,32 @@ class AzureOpenAIClient:
             # Prepare conversation messages
             messages = conversation_history or []
             
-            # Define system message for medical assistant behavior
+            # Define system message with enhanced prompt engineering
             system_message = {
                 "role": "system", 
-                "content": """Bạn là trợ lý ảo của phòng khám đa khoa. 
-                Nhiệm vụ của bạn là phân tích triệu chứng, tư vấn chuyên khoa phù hợp, 
-                và trả lời các câu hỏi liên quan đến quy trình khám bệnh. 
-                Giọng điệu thân thiện, chuyên nghiệp. 
-                Chỉ trả lời các câu hỏi liên quan đến y tế và dịch vụ phòng khám.
-                Không trả lời các câu hỏi không liên quan.
-                """
+                "content": f"""Bạn là trợ lý y tế thông minh tại phòng khám đa khoa, tên là Med Assistant.
+
+NHIỆM VỤ CỦA BẠN:
+1. Phân tích triệu chứng bệnh nhân và gợi ý chuyên khoa phù hợp
+2. Trả lời câu hỏi về quy trình khám bệnh, chi phí và dịch vụ
+3. Hướng dẫn đặt lịch khám bệnh
+4. Giải thích các vấn đề y tế phổ biến một cách đơn giản, dễ hiểu
+
+GIỌNG ĐIỆU:
+- Chuyên nghiệp nhưng thân thiện
+- Tôn trọng và đồng cảm với bệnh nhân
+- Rõ ràng, ngắn gọn và dễ hiểu
+
+GIỚI HẠN:
+- Chỉ trả lời các câu hỏi liên quan đến y tế và dịch vụ phòng khám
+- Không chẩn đoán bệnh chính xác, chỉ cung cấp thông tin chung và hướng dẫn
+- Không tư vấn về thuốc hoặc liều lượng cụ thể
+- Hướng dẫn bệnh nhân đến gặp bác sĩ với các tình trạng nghiêm trọng
+
+THÔNG TIN BỔ SUNG:
+- Hôm nay là ngày {datetime.now().strftime('%d/%m/%Y')}
+- Phòng khám làm việc từ 8:00 - 17:00, từ thứ Hai đến thứ Bảy
+"""
             }
             
             # Add system message if not already present
@@ -99,18 +141,32 @@ class AzureOpenAIClient:
             # Prepare conversation messages
             messages = conversation_history or []
             
-            # Define system message for medical assistant behavior
+            # Define system message with enhanced prompt engineering
             system_message = {
                 "role": "system", 
-                "content": f"""Bạn là trợ lý ảo của phòng khám đa khoa. 
-                Nhiệm vụ của bạn là phân tích triệu chứng, tư vấn chuyên khoa phù hợp, 
-                và trả lời các câu hỏi liên quan đến quy trình khám bệnh. 
-                Giọng điệu thân thiện, chuyên nghiệp. 
-                Chỉ trả lời các câu hỏi liên quan đến y tế và dịch vụ phòng khám.
-                Không trả lời các câu hỏi không liên quan.
-                
-                Hôm nay là ngày {datetime.now().strftime('%d/%m/%Y')}.
-                """
+                "content": f"""Bạn là trợ lý y tế thông minh tại phòng khám đa khoa, tên là Med Assistant.
+
+NHIỆM VỤ CỦA BẠN:
+1. Phân tích triệu chứng bệnh nhân và gợi ý chuyên khoa phù hợp
+2. Trả lời câu hỏi về quy trình khám bệnh, chi phí và dịch vụ
+3. Hướng dẫn đặt lịch khám bệnh
+4. Giải thích các vấn đề y tế phổ biến một cách đơn giản, dễ hiểu
+
+GIỌNG ĐIỆU:
+- Chuyên nghiệp nhưng thân thiện
+- Tôn trọng và đồng cảm với bệnh nhân
+- Rõ ràng, ngắn gọn và dễ hiểu
+
+GIỚI HẠN:
+- Chỉ trả lời các câu hỏi liên quan đến y tế và dịch vụ phòng khám
+- Không chẩn đoán bệnh chính xác, chỉ cung cấp thông tin chung và hướng dẫn
+- Không tư vấn về thuốc hoặc liều lượng cụ thể
+- Hướng dẫn bệnh nhân đến gặp bác sĩ với các tình trạng nghiêm trọng
+
+THÔNG TIN BỔ SUNG:
+- Hôm nay là ngày {datetime.now().strftime('%d/%m/%Y')}
+- Phòng khám làm việc từ 8:00 - 17:00, từ thứ Hai đến thứ Bảy
+"""
             }
             
             # Add system message if not already present
@@ -173,37 +229,44 @@ class AzureOpenAIClient:
             return {"error": "Azure OpenAI client is not properly configured"}
         
         try:
+            # Create department info for the prompt
+            departments_info = ""
+            for dept in self.departments_data.get("departments", []):
+                departments_info += f"- {dept['code']}: {dept['name']} - {dept['description']}\n"
+                
             # Create prompt for symptom analysis with department codes mapping and current date context
             today = datetime.now()
             prompt = f"""
-            Hôm nay là ngày {today.strftime('%d/%m/%Y')}.
-            
-            Phân tích các triệu chứng sau và cung cấp thông tin về:
-            1. Chuyên khoa phù hợp để thăm khám. Dựa trên danh sách sau:
-               - D01: Nội tổng hợp - Khám tổng quát, điều trị các bệnh thông thường
-               - D02: Răng hàm mặt - Chăm sóc răng miệng, chỉnh nha, tiểu phẫu
-               - D03: Tai mũi họng - Khám, điều trị các bệnh lý về tai, mũi, họng
-               - D04: Mắt - Khám thị lực, điều trị cận thị, loạn thị
-               - D05: Da liễu - Điều trị mụn, viêm da, dị ứng, lão hóa
-               - D06: Nhi khoa - Khám trẻ em, tư vấn dinh dưỡng, tiêm chủng
-            
-            2. Các bệnh lý tiềm năng liên quan đến triệu chứng
-            3. Mức độ nghiêm trọng (Thấp/Trung bình/Cao)
-            
-            Triệu chứng: {symptoms}
-            
-            Trả về kết quả dưới dạng JSON với định dạng sau:
-            {{
-                "department_codes": ["D01", "D03"], // Mã khoa phù hợp
-                "departments": ["Nội tổng hợp", "Tai mũi họng"], // Tên khoa phù hợp
-                "possible_conditions": ["Bệnh 1", "Bệnh 2"],
-                "severity": "Mức độ",
-                "recommendation": "Lời khuyên ngắn gọn"
-            }}
-            """
+# NHIỆM VỤ
+Phân tích triệu chứng của bệnh nhân và đưa ra gợi ý về chuyên khoa phù hợp nhất để thăm khám.
+
+# THÔNG TIN CHUNG
+- Hôm nay là ngày {today.strftime('%d/%m/%Y')}
+- Phòng khám đa khoa có các chuyên khoa sau:
+{departments_info}
+
+# YÊU CẦU PHÂN TÍCH
+1. Xác định chuyên khoa phù hợp nhất dựa trên triệu chứng
+2. Liệt kê các bệnh lý tiềm năng liên quan đến triệu chứng
+3. Đánh giá mức độ nghiêm trọng của triệu chứng (Thấp/Trung bình/Cao)
+4. Đề xuất lời khuyên ngắn gọn cho bệnh nhân
+
+# TRIỆU CHỨNG CỦA BỆNH NHÂN
+{symptoms}
+
+# PHẢN HỒI
+Hãy trả về kết quả phân tích dưới dạng JSON chính xác theo định dạng sau:
+{{
+    "department_codes": ["D01", "D03"],
+    "departments": ["Nội tổng hợp", "Tai mũi họng"],
+    "possible_conditions": ["Bệnh 1", "Bệnh 2"],
+    "severity": "Mức độ nghiêm trọng",
+    "recommendation": "Lời khuyên ngắn gọn"
+}}
+"""
             
             messages = [
-                {"role": "system", "content": "Bạn là trợ lý y tế, chuyên phân tích triệu chứng và đưa ra gợi ý chuyên môn."},
+                {"role": "system", "content": "Bạn là chuyên gia y tế, nhiệm vụ của bạn là phân tích triệu chứng và gợi ý chuyên khoa phù hợp. Luôn trả về kết quả dưới dạng JSON chính xác."},
                 {"role": "user", "content": prompt}
             ]
             
@@ -211,8 +274,8 @@ class AzureOpenAIClient:
             response = openai.ChatCompletion.create(
                 engine=self.deployment_name,
                 messages=messages,
-                max_tokens=500,
-                temperature=0.3
+                max_tokens=800,
+                temperature=0.2
             )
             
             # Extract and parse JSON response
@@ -257,35 +320,46 @@ class AzureOpenAIClient:
         if not self.is_configured():
             return [{"error": "Azure OpenAI client is not properly configured"}]
         
+        # First try to get doctors from local data
+        doctors_in_dept = [
+            doc for doc in self.doctors_data.get("doctors", [])
+            if doc.get("department_code") == department_code
+        ]
+        
+        if doctors_in_dept:
+            return doctors_in_dept[:3]  # Return up to 3 doctors
+        
+        # If no doctors found in local data, use AI to generate
         try:
-            dept_names = {
-                "D01": "Nội tổng hợp",
-                "D02": "Răng hàm mặt",
-                "D03": "Tai mũi họng",
-                "D04": "Mắt",
-                "D05": "Da liễu",
-                "D06": "Nhi khoa"
-            }
-            
-            dept_name = dept_names.get(department_code, "Unknown")
+            # Get department name
+            dept_name = "Unknown"
+            for dept in self.departments_data.get("departments", []):
+                if dept.get("code") == department_code:
+                    dept_name = dept.get("name")
+                    break
             
             prompt = f"""
-            Gợi ý 3 bác sĩ làm việc tại khoa {dept_name} ({department_code}).
-            
-            Trả về kết quả dưới dạng JSON với định dạng sau:
-            {{
-                "doctors": [
-                    {{"id": "BS001", "name": "Tên Bác Sĩ", "specialty": "Chuyên khoa", "experience": "Số năm kinh nghiệm"}},
-                    {{"id": "BS002", "name": "Tên Bác Sĩ", "specialty": "Chuyên khoa", "experience": "Số năm kinh nghiệm"}},
-                    {{"id": "BS003", "name": "Tên Bác Sĩ", "specialty": "Chuyên khoa", "experience": "Số năm kinh nghiệm"}}
-                ]
-            }}
-            
-            Tất cả thông tin cần hợp lý và chuyên nghiệp. Tên bác sĩ phải là tên Việt Nam.
-            """
+# NHIỆM VỤ
+Gợi ý 3 bác sĩ làm việc tại khoa {dept_name} (mã khoa: {department_code}).
+
+# YÊU CẦU
+1. Check thời gian trống
+2. Thông tin phải thực tế, phù hợp với chuyên khoa
+4. Cung cấp thông tin về chuyên môn và kinh nghiệm
+
+# PHẢN HỒI
+Trả về kết quả dưới dạng JSON chính xác với định dạng sau:
+{{
+    "doctors": [
+        {{"id": "BS001", "name": "Tên Bác Sĩ", "department_code": "{department_code}", "specialty": "Chuyên khoa", "experience": "Số năm kinh nghiệm", "education": "Trường đào tạo"}},
+        {{"id": "BS002", "name": "Tên Bác Sĩ", "department_code": "{department_code}", "specialty": "Chuyên khoa", "experience": "Số năm kinh nghiệm", "education": "Trường đào tạo"}},
+        {{"id": "BS003", "name": "Tên Bác Sĩ", "department_code": "{department_code}", "specialty": "Chuyên khoa", "experience": "Số năm kinh nghiệm", "education": "Trường đào tạo"}}
+    ]
+}}
+"""
             
             messages = [
-                {"role": "system", "content": "Bạn là trợ lý y tế, chuyên cung cấp thông tin về bác sĩ."},
+                {"role": "system", "content": "Bạn là trợ lý y tế, nhiệm vụ của bạn là cung cấp thông tin về bác sĩ theo chuyên khoa. Luôn trả về kết quả dưới dạng JSON chính xác."},
                 {"role": "user", "content": prompt}
             ]
             
@@ -293,8 +367,8 @@ class AzureOpenAIClient:
             response = openai.ChatCompletion.create(
                 engine=self.deployment_name,
                 messages=messages,
-                max_tokens=500,
-                temperature=0.7
+                max_tokens=600,
+                temperature=0.5
             )
             
             # Extract and parse JSON response

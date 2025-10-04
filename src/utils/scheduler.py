@@ -13,6 +13,9 @@ class Scheduler:
         self.appointments = []
         self._load_appointments()
         
+        # Load departments data
+        self.departments_data = self._load_departments_data()
+        
         # Default time slots (8:00 to 16:00, every 30 minutes)
         self.default_slots = [
             f"{h:02d}:{m:02d}" 
@@ -44,6 +47,17 @@ class Scheduler:
                 json.dump({"appointments": self.appointments}, f, indent=2, ensure_ascii=False)
         except Exception as e:
             print(f"Error saving appointments: {e}")
+    
+    def _load_departments_data(self) -> Dict:
+        """Load department data from JSON file."""
+        try:
+            data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 
+                                    "data/departments.json")
+            with open(data_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading departments data: {e}")
+            return {"departments": []}
     
     def get_available_slots(self, date: str, department: Optional[str] = None) -> Dict[str, List[str]]:
         """
@@ -122,6 +136,13 @@ class Scheduler:
         Returns:
             List of dictionaries with department information
         """
+        # Get departments from data file
+        departments = self.departments_data.get("departments", [])
+        if departments:
+            return [{"code": dept["code"], "name": dept["name"], "description": dept["description"]} 
+                    for dept in departments]
+        
+        # Fall back to hardcoded departments if no data file exists
         return [
             {"code": "D01", "name": "Nội tổng hợp", "description": "Khám tổng quát, điều trị các bệnh thông thường"},
             {"code": "D02", "name": "Răng hàm mặt", "description": "Chăm sóc răng miệng, chỉnh nha, tiểu phẫu"},

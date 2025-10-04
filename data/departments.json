@@ -1,0 +1,46 @@
+{
+  "departments": [
+    {
+      "code": "D01",
+      "name": "Nội tổng hợp",
+      "description": "Khám tổng quát, điều trị các bệnh thông thường",
+      "specialties": ["Nội khoa", "Khám tổng quát", "Tim mạch", "Hô hấp", "Tiêu hóa"],
+      "common_conditions": ["Cảm cúm", "Đau đầu", "Viêm họng", "Huyết áp cao", "Đau bụng"]
+    },
+    {
+      "code": "D02",
+      "name": "Răng hàm mặt",
+      "description": "Chăm sóc răng miệng, chỉnh nha, tiểu phẫu",
+      "specialties": ["Nha khoa", "Chỉnh nha", "Phẫu thuật hàm mặt"],
+      "common_conditions": ["Sâu răng", "Viêm lợi", "Đau nhức răng", "Răng mọc lệch", "Viêm nướu"]
+    },
+    {
+      "code": "D03",
+      "name": "Tai mũi họng",
+      "description": "Khám, điều trị các bệnh lý về tai, mũi, họng",
+      "specialties": ["Tai mũi họng", "Thính học"],
+      "common_conditions": ["Viêm xoang", "Viêm tai giữa", "Viêm họng", "Ù tai", "Polyp mũi"]
+    },
+    {
+      "code": "D04",
+      "name": "Mắt",
+      "description": "Khám thị lực, điều trị cận thị, loạn thị",
+      "specialties": ["Nhãn khoa", "Đo thị lực", "Phẫu thuật mắt"],
+      "common_conditions": ["Cận thị", "Viêm kết mạc", "Đục thủy tinh thể", "Khô mắt", "Loạn thị"]
+    },
+    {
+      "code": "D05",
+      "name": "Da liễu",
+      "description": "Điều trị mụn, viêm da, dị ứng, lão hóa",
+      "specialties": ["Da liễu", "Thẩm mỹ da"],
+      "common_conditions": ["Mụn trứng cá", "Viêm da", "Dị ứng da", "Chàm", "Vẩy nến"]
+    },
+    {
+      "code": "D06",
+      "name": "Nhi khoa",
+      "description": "Khám trẻ em, tư vấn dinh dưỡng, tiêm chủng",
+      "specialties": ["Nhi khoa", "Dinh dưỡng trẻ em", "Tiêm chủng"],
+      "common_conditions": ["Sốt phát ban", "Tiêu chảy", "Viêm phổi", "Viêm tai giữa", "Suy dinh dưỡng"]
+    }
+  ]
+}

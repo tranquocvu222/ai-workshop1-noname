@@ -1,0 +1,116 @@
+{
+  "doctors": [
+    {
+      "id": "BS001",
+      "name": "BS. Nguyễn Văn Anh",
+      "department_code": "D01",
+      "specialty": "Nội khoa tổng quát",
+      "experience": "15 năm kinh nghiệm",
+      "education": "Đại học Y Hà Nội"
+    },
+    {
+      "id": "BS002",
+      "name": "BS. Trần Thị Bình",
+      "department_code": "D01",
+      "specialty": "Tim mạch",
+      "experience": "12 năm kinh nghiệm",
+      "education": "Đại học Y Dược TP.HCM"
+    },
+    {
+      "id": "BS003",
+      "name": "BS. Lê Văn Cường",
+      "department_code": "D01",
+      "specialty": "Tiêu hóa",
+      "experience": "10 năm kinh nghiệm",
+      "education": "Đại học Y Dược Huế"
+    },
+    {
+      "id": "BS004",
+      "name": "BS. Phạm Thị Dung",
+      "department_code": "D02",
+      "specialty": "Nha khoa tổng quát",
+      "experience": "8 năm kinh nghiệm",
+      "education": "Đại học Răng Hàm Mặt Hà Nội"
+    },
+    {
+      "id": "BS005",
+      "name": "BS. Hoàng Văn Dũng",
+      "department_code": "D02",
+      "specialty": "Chỉnh nha",
+      "experience": "11 năm kinh nghiệm",
+      "education": "Đại học Y Dược TP.HCM"
+    },
+    {
+      "id": "BS006",
+      "name": "BS. Ngô Thị Hà",
+      "department_code": "D03",
+      "specialty": "Tai Mũi Họng",
+      "experience": "14 năm kinh nghiệm",
+      "education": "Đại học Y Hà Nội"
+    },
+    {
+      "id": "BS007",
+      "name": "BS. Trương Văn Giang",
+      "department_code": "D03",
+      "specialty": "Thính học",
+      "experience": "9 năm kinh nghiệm",
+      "education": "Đại học Y Dược TP.HCM"
+    },
+    {
+      "id": "BS008",
+      "name": "BS. Vũ Thị Hoa",
+      "department_code": "D04",
+      "specialty": "Nhãn khoa",
+      "experience": "13 năm kinh nghiệm",
+      "education": "Đại học Y Hà Nội"
+    },
+    {
+      "id": "BS009",
+      "name": "BS. Đinh Văn Hùng",
+      "department_code": "D04",
+      "specialty": "Phẫu thuật mắt",
+      "experience": "15 năm kinh nghiệm",
+      "education": "Đại học Y Dược TP.HCM"
+    },
+    {
+      "id": "BS010",
+      "name": "BS. Lý Thị Kim",
+      "department_code": "D05",
+      "specialty": "Da liễu",
+      "experience": "10 năm kinh nghiệm",
+      "education": "Đại học Y Hà Nội"
+    },
+    {
+      "id": "BS011",
+      "name": "BS. Đặng Văn Long",
+      "department_code": "D05",
+      "specialty": "Thẩm mỹ da",
+      "experience": "7 năm kinh nghiệm",
+      "education": "Đại học Y Dược TP.HCM"
+    },
+    {
+      "id": "BS012",
+      "name": "BS. Phùng Thị Minh",
+      "department_code": "D06",
+      "specialty": "Nhi khoa tổng quát",
+      "experience": "12 năm kinh nghiệm",
+      "education": "Đại học Y Hà Nội"
+    },
+    {
+      "id": "BS013",
+      "name": "BS. Cao Văn Nam",
+      "department_code": "D06",
+      "specialty": "Dinh dưỡng trẻ em",
+      "experience": "9 năm kinh nghiệm",
+      "education": "Đại học Y Dược TP.HCM"
+    },
+    {
+      "id": "BS014",
+      "name": "BS. Dương Thị Oanh",
+      "department_code": "D06",
+      "specialty": "Tiêm chủng và phòng bệnh",
+      "experience": "11 năm kinh nghiệm",
+      "education": "Đại học Y Huế"
+    }
+  ]
+}
