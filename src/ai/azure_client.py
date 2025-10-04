@@ -146,8 +146,18 @@ class AzureOpenAIClient:
             if not collected_chunks:
                 yield ""
                 
+        except openai.error.APIError as e:
+            yield "Hệ thống hiện đang gặp sự cố kết nối. Vui lòng thử lại sau ít phút."
+        except openai.error.Timeout as e:
+            yield "Hệ thống đang phản hồi chậm. Vui lòng thử lại sau."
+        except openai.error.RateLimitError as e:
+            yield "Hệ thống đang xử lý quá nhiều yêu cầu. Vui lòng thử lại sau ít phút."
+        except openai.error.InvalidRequestError as e:
+            yield "Yêu cầu không hợp lệ. Vui lòng thử lại với câu hỏi khác."
+        except openai.error.AuthenticationError as e:
+            yield "Hệ thống đang gặp vấn đề về xác thực. Vui lòng liên hệ quản trị viên."
         except Exception as e:
-            yield f"⚠️ Error generating streaming response: {str(e)}"
+            yield "Đã có lỗi xảy ra. Vui lòng thử lại sau. Nếu vấn đề còn tiếp tục, hãy liên hệ quản trị viên."
             
     def analyze_symptoms(self, symptoms: str) -> Dict[str, Any]:
         """
@@ -221,8 +231,18 @@ class AzureOpenAIClient:
                     "raw_response": response_text
                 }
                 
+        except openai.error.APIError:
+            return {"error": "Hệ thống hiện đang gặp sự cố kết nối. Vui lòng thử lại sau ít phút."}
+        except openai.error.Timeout:
+            return {"error": "Hệ thống đang phản hồi chậm. Vui lòng thử lại sau."}
+        except openai.error.RateLimitError:
+            return {"error": "Hệ thống đang xử lý quá nhiều yêu cầu. Vui lòng thử lại sau ít phút."}
+        except openai.error.InvalidRequestError:
+            return {"error": "Yêu cầu không hợp lệ. Vui lòng thử lại với mô tả triệu chứng khác."}
+        except openai.error.AuthenticationError:
+            return {"error": "Hệ thống đang gặp vấn đề về xác thực. Vui lòng liên hệ quản trị viên."}
         except Exception as e:
-            return {"error": f"Error analyzing symptoms: {str(e)}"}
+            return {"error": "Đã có lỗi xảy ra. Vui lòng thử lại sau."}
     
     def get_doctor_suggestions(self, department_code: str) -> List[Dict[str, str]]:
         """
@@ -291,5 +311,15 @@ class AzureOpenAIClient:
             except json.JSONDecodeError:
                 return [{"error": "Failed to parse doctor suggestions"}]
                 
+        except openai.error.APIError:
+            return [{"error": "Hệ thống hiện đang gặp sự cố kết nối. Vui lòng thử lại sau ít phút."}]
+        except openai.error.Timeout:
+            return [{"error": "Hệ thống đang phản hồi chậm. Vui lòng thử lại sau."}]
+        except openai.error.RateLimitError:
+            return [{"error": "Hệ thống đang xử lý quá nhiều yêu cầu. Vui lòng thử lại sau ít phút."}]
+        except openai.error.InvalidRequestError:
+            return [{"error": "Yêu cầu không hợp lệ. Vui lòng thử lại."}]
+        except openai.error.AuthenticationError:
+            return [{"error": "Hệ thống đang gặp vấn đề về xác thực. Vui lòng liên hệ quản trị viên."}]
         except Exception as e:
-            return [{"error": f"Error getting doctor suggestions: {str(e)}"}]
+            return [{"error": "Đã có lỗi xảy ra. Vui lòng thử lại sau."}]

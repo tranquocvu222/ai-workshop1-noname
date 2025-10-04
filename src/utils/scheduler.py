@@ -177,7 +177,14 @@ class Scheduler:
         
         # Direct date format (YYYY-MM-DD)
         if re.match(r'\d{4}-\d{2}-\d{2}', date_expr):
-            return date_expr
+            try:
+                input_date = datetime.strptime(date_expr, '%Y-%m-%d')
+                # Check if date is in the past
+                if input_date.date() < today.date():
+                    return today.strftime('%Y-%m-%d')
+                return date_expr
+            except ValueError:
+                return today.strftime('%Y-%m-%d')
         
         # Date format DD/MM/YYYY
         if re.match(r'\d{1,2}/\d{1,2}/\d{4}', date_expr):
@@ -186,7 +193,11 @@ class Scheduler:
             month = int(parts[1])
             year = int(parts[2])
             try:
-                return datetime(year, month, day).strftime('%Y-%m-%d')
+                input_date = datetime(year, month, day)
+                # Check if date is in the past
+                if input_date.date() < today.date():
+                    return today.strftime('%Y-%m-%d')
+                return input_date.strftime('%Y-%m-%d')
             except ValueError:
                 return today.strftime('%Y-%m-%d')  # Return today's date if invalid
         
@@ -229,6 +240,23 @@ class Scheduler:
                 
         # Default to tomorrow if no matching pattern
         return (today + timedelta(days=1)).strftime('%Y-%m-%d')
+    
+    def is_valid_date(self, date_str: str) -> bool:
+        """
+        Check if a date is valid and not in the past.
+        
+        Args:
+            date_str: Date string in YYYY-MM-DD format
+            
+        Returns:
+            True if the date is valid and not in the past
+        """
+        today = datetime.now().date()
+        try:
+            date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
+            return date_obj >= today
+        except ValueError:
+            return False
     
     def format_date_with_weekday(self, date_str: str, format: str = "%d/%m/%Y") -> str:
         """

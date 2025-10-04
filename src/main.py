@@ -139,6 +139,16 @@ def check_available_slots(date_str: Optional[str] = None, department: Optional[s
         # Parse natural language date expressions
         date_str = scheduler.parse_date_expression(date_str)
     
+    # Check if date is in the past
+    if not scheduler.is_valid_date(date_str):
+        console.print(Panel(
+            "Không thể kiểm tra lịch khám cho ngày trong quá khứ. Đã tự động chọn ngày hôm nay.",
+            title="[bold]Warning[/bold]",
+            border_style="yellow",
+            box=ROUNDED
+        ))
+        date_str = datetime.now().strftime("%Y-%m-%d")
+    
     try:
         # Get available slots
         slots = scheduler.get_available_slots(date_str, department)
@@ -485,7 +495,6 @@ def start_booking_process():
         ))
     
     # Get appointment date
-    tomorrow = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
     date_input = Prompt.ask(
         "[bold cyan]Ngày khám (có thể nhập: ngày mai, mốt, DD/MM/YYYY, YYYY-MM-DD)[/bold cyan]", 
         default="ngày mai"
@@ -493,6 +502,17 @@ def start_booking_process():
     
     # Parse natural language date
     parsed_date = scheduler.parse_date_expression(date_input)
+    
+    # Check if date is in the past
+    if not scheduler.is_valid_date(parsed_date):
+        console.print(Panel(
+            "Không thể đặt lịch cho ngày trong quá khứ. Đã tự động chọn ngày mai.",
+            title="[bold]Warning[/bold]",
+            border_style="yellow",
+            box=ROUNDED
+        ))
+        parsed_date = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
+    
     formatted_date = scheduler.format_date_with_weekday(parsed_date)
     
     console.print(f"[green]Đã chọn: {formatted_date}[/green]")
@@ -778,6 +798,20 @@ def process_user_input(user_input: str):
             box=ROUNDED
         ))
     
+    # Check for date/time related expressions and add context
+    date_patterns = [
+        r'(hôm nay|ngày mai|ngày mốt|ngày kia)',
+        r'(thứ \d|thứ [a-zA-Z]+|chủ nhật)',
+        r'\d{1,2}/\d{1,2}',
+        r'\d{1,2}/\d{1,2}/\d{4}'
+    ]
+    
+    for pattern in date_patterns:
+        if re.search(pattern, user_input.lower()):
+            today = datetime.now().strftime("%d/%m/%Y")
+            user_input = f"Hôm nay là {today}. {user_input}"
+            break
+    
     # Store user message in history
     conversation_history.append({"role": "user", "content": user_input})
     
@@ -808,15 +842,15 @@ def process_user_input(user_input: str):
         display_available_commands()
     
     except Exception as e:
-        error_msg = f"\n[bold red]Error: {str(e)}[/bold red]"
+        error_msg = "Hệ thống hiện đang gặp sự cố. Vui lòng thử lại sau ít phút."
         console.print(Panel(
-            f"Error: {str(e)}",
-            title="[bold]Error[/bold]",
-            border_style="red",
+            error_msg,
+            title="[bold]Thông báo[/bold]",
+            border_style="yellow",
             box=ROUNDED
         ))
         # Store error message in history
-        conversation_history.append({"role": "assistant", "content": f"Error: {str(e)}"})
+        conversation_history.append({"role": "assistant", "content": error_msg})
         
         # Display available commands even after error
         display_available_commands()
