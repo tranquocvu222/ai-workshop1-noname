@@ -628,8 +628,8 @@ def start_booking_process():
 
 def display_department_doctors(department_code: str):
     """Display doctors for a specific department."""
-    doctors = ai_client.get_doctor_suggestions(department_code)
-    if doctors and not any("error" in doc for doc in doctors):
+    doctors = ai_client.get_doctor(department_code=department_code)
+    if doctors:
         display_doctors(doctors)
     else:
         console.print(Panel(
@@ -683,7 +683,7 @@ def recommend_doctors_based_on_symptoms(symptoms: str):
         ))
         return
     
-    # For each department code, get and display doctors
+    # For each department code, get and display doctors using the new get_doctor function
     console.print(Panel(
         "Dựa trên triệu chứng của bạn, tôi gợi ý các bác sĩ sau:",
         title="[bold]Gợi ý bác sĩ[/bold]",
@@ -694,7 +694,7 @@ def recommend_doctors_based_on_symptoms(symptoms: str):
     for dept_code in department_codes[:2]:  # Limit to top 2 departments to avoid information overload
         dept_name = scheduler.get_department_name(dept_code)
         console.print(f"\n[bold cyan]Khoa {dept_name} ({dept_code}):[/bold cyan]")
-        doctors = ai_client.get_doctor_suggestions(dept_code)
+        doctors = ai_client.get_doctor(department_code=dept_code)
         display_doctors(doctors)
 
 def suggest_related_command(user_input: str) -> Optional[str]:
@@ -844,8 +844,9 @@ def process_user_input(user_input: str):
     
     # Check if user is asking specifically about doctors
     if "bác sĩ" in user_input.lower() or "doctor" in user_input.lower() or "bs" in user_input.lower():
-        # Add context about doctors data availability
-        user_input = f"Hãy sử dụng thông tin từ danh sách bác sĩ có sẵn để trả lời. {user_input}"
+        # For function calling, we don't need to add this additional context
+        # The model will use the getDoctor function automatically
+        pass
     
     # Store user message in history
     conversation_history.append({"role": "user", "content": user_input})
@@ -855,16 +856,23 @@ def process_user_input(user_input: str):
     
     # Use streaming response
     full_response = ""
+    function_call_detected = False
+    
     try:
         # Get the stream generator
         response_stream = ai_client.generate_response_stream(user_input, conversation_history)
         
         # Process and display chunks as they arrive
         for chunk in response_stream:
-            full_response += chunk
-            # Display each chunk as it arrives (mimicking streaming)
-            console.print(chunk, end="")
-            sys.stdout.flush()
+            if "Đang tìm kiếm thông tin bác sĩ" in chunk:
+                function_call_detected = True
+                console.print(chunk, end="")
+                sys.stdout.flush()
+            else:
+                full_response += chunk
+                # Display each chunk as it arrives (mimicking streaming)
+                console.print(chunk, end="")
+                sys.stdout.flush()
             
         # Add a newline after response is complete
         console.print()
@@ -877,7 +885,7 @@ def process_user_input(user_input: str):
         display_available_commands()
     
     except Exception as e:
-        error_msg = "Hệ thống hiện đang gặp sự cố. Vui lòng thử lại sau ít phút."
+        error_msg = f"Hệ thống hiện đang gặp sự cố: {str(e)}. Vui lòng thử lại sau ít phút."
         console.print(Panel(
             error_msg,
             title="[bold]Thông báo[/bold]",

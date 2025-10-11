@@ -181,15 +181,42 @@ THÔNG TIN BỔ SUNG:
 DANH SÁCH CHUYÊN KHOA:
 {department_info}
 
-DANH SÁCH BÁC SĨ:
-{doctor_info}
+KHI CẦN TÌM THÔNG TIN BÁC SĨ:
+- Hãy sử dụng function getDoctor thay vì dùng danh sách có sẵn
+- Function getDoctor sẽ trả về thông tin bác sĩ dựa trên các tiêu chí như department_code hoặc specialty
 
 LƯU Ý QUAN TRỌNG:
-- Khi người dùng hỏi về bác sĩ, hãy sử dụng thông tin từ danh sách bác sĩ ở trên.
-- Khi được yêu cầu gợi ý bác sĩ dựa trên triệu chứng, hãy phân tích triệu chứng, xác định chuyên khoa phù hợp, sau đó gợi ý bác sĩ từ danh sách.
-- LUÔN sử dụng danh sách bác sĩ có sẵn thay vì nói rằng bạn không có thông tin.
+- Khi người dùng hỏi về bác sĩ, hãy gọi function getDoctor để lấy thông tin chính xác
+- Khi được yêu cầu gợi ý bác sĩ dựa trên triệu chứng, hãy phân tích triệu chứng, xác định chuyên khoa phù hợp, sau đó gọi getDoctor
+- LUÔN ưu tiên sử dụng function getDoctor thay vì trả lời rằng bạn không có thông tin
 """
             }
+            
+            # Define functions for the model to call
+            functions = [
+                {
+                    "name": "getDoctor",
+                    "description": "Lấy thông tin bác sĩ theo các tiêu chí như mã khoa, chuyên khoa, ID",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "department_code": {
+                                "type": "string",
+                                "description": "Mã khoa (e.g., D01, D02, D03, etc.)"
+                            },
+                            "doctor_id": {
+                                "type": "string",
+                                "description": "ID của bác sĩ (e.g., BS001, BS002, etc.)"
+                            },
+                            "specialty": {
+                                "type": "string",
+                                "description": "Chuyên khoa của bác sĩ (e.g., Nội khoa tổng quát, Tim mạch, etc.)"
+                            }
+                        },
+                        "required": []
+                    }
+                }
+            ]
             
             # Add system message if not already present
             if not messages or messages[0].get("role") != "system":
@@ -198,30 +225,77 @@ LƯU Ý QUAN TRỌNG:
             # Add user's new message
             messages.append({"role": "user", "content": user_input})
             
-            # Call Azure OpenAI API with streaming enabled
+            # Call Azure OpenAI API with function calling enabled
             response_stream = openai.ChatCompletion.create(
                 engine=self.deployment_name,
                 messages=messages,
                 max_tokens=500,
                 temperature=0.7,
+                functions=functions,
+                function_call="auto",
                 stream=True
             )
             
-            # Yield chunks as they arrive
+            # Variables to collect function calls and content
             collected_chunks = []
             collected_messages = ""
+            function_call_detected = False
+            function_name = None
+            function_args = ""
             
+            # Handle streaming response
             for chunk in response_stream:
-                # Extract content from chunk if available
+                # Check if this chunk contains a function call
                 if hasattr(chunk, "choices") and chunk.choices and len(chunk.choices) > 0:
-                    content = chunk.choices[0].get("delta", {}).get("content")
-                    if content is not None:
+                    delta = chunk.choices[0].get("delta", {})
+                    
+                    # Check if this is the start of a function call
+                    if "function_call" in delta and delta["function_call"].get("name"):
+                        function_call_detected = True
+                        function_name = delta["function_call"]["name"]
+                        yield f"Đang tìm kiếm thông tin bác sĩ... "
+                    
+                    # Collect function arguments if this is a function call
+                    if function_call_detected and "function_call" in delta:
+                        if "arguments" in delta["function_call"]:
+                            function_args += delta["function_call"]["arguments"]
+                    
+                    # Otherwise handle normal content streaming
+                    elif "content" in delta and delta["content"] is not None:
+                        content = delta["content"]
                         collected_chunks.append(content)
                         collected_messages += content
                         yield content
             
+            # If there was a function call, execute it and yield the result
+            if function_call_detected and function_name == "getDoctor":
+                try:
+                    args = json.loads(function_args)
+                    doctor_info = self.get_doctor(**args)
+                    
+                    # Format doctor information as a nicely formatted string
+                    if isinstance(doctor_info, list) and doctor_info:
+                        result = "Tôi đã tìm thấy các bác sĩ phù hợp:\n\n"
+                        for doc in doctor_info:
+                            result += f"- {doc.get('name', 'N/A')} ({doc.get('id', 'N/A')})\n"
+                            result += f"  Chuyên khoa: {doc.get('specialty', 'N/A')}\n"
+                            result += f"  Kinh nghiệm: {doc.get('experience', 'N/A')}\n"
+                            result += f"  Học vấn: {doc.get('education', 'N/A')}\n\n"
+                        yield f"\n\n{result}"
+                    elif isinstance(doctor_info, dict):
+                        doc = doctor_info
+                        result = f"Tôi đã tìm thấy bác sĩ: {doc.get('name', 'N/A')} ({doc.get('id', 'N/A')})\n"
+                        result += f"Chuyên khoa: {doc.get('specialty', 'N/A')}\n"
+                        result += f"Kinh nghiệm: {doc.get('experience', 'N/A')}\n" 
+                        result += f"Học vấn: {doc.get('education', 'N/A')}\n"
+                        yield f"\n\n{result}"
+                    else:
+                        yield "\n\nKhông tìm thấy thông tin bác sĩ phù hợp với yêu cầu."
+                except json.JSONDecodeError:
+                    yield "\n\nCó lỗi xảy ra khi xử lý yêu cầu tìm kiếm bác sĩ."
+            
             # Return full message if nothing was yielded (this should rarely happen)
-            if not collected_chunks:
+            if not collected_chunks and not function_call_detected:
                 yield ""
                 
         except openai.error.APIError as e:
@@ -235,7 +309,47 @@ LƯU Ý QUAN TRỌNG:
         except openai.error.AuthenticationError as e:
             yield "Hệ thống đang gặp vấn đề về xác thực. Vui lòng liên hệ quản trị viên."
         except Exception as e:
-            yield "Đã có lỗi xảy ra. Vui lòng thử lại sau. Nếu vấn đề còn tiếp tục, hãy liên hệ quản trị viên."
+            yield f"Đã có lỗi xảy ra: {str(e)}. Vui lòng thử lại sau."
+            
+    def get_doctor(self, doctor_id: str = None, department_code: str = None, specialty: str = None) -> Union[Dict[str, Any], List[Dict[str, Any]], None]:
+        """
+        Get doctor information based on various search criteria.
+        
+        Args:
+            doctor_id: Optional doctor ID to find a specific doctor
+            department_code: Optional department code to filter doctors
+            specialty: Optional specialty to filter doctors
+            
+        Returns:
+            A doctor dict, list of doctor dicts, or None if no matches found
+        """
+        # Load all doctors data
+        doctors = self.doctors_data.get("doctors", [])
+        
+        # If doctor_id is provided, find specific doctor
+        if doctor_id:
+            for doc in doctors:
+                if doc.get("id") == doctor_id:
+                    return doc
+            return None
+            
+        # Filter doctors by criteria
+        result = doctors
+        
+        # Filter by department_code if provided
+        if department_code:
+            result = [doc for doc in result if doc.get("department_code") == department_code]
+            
+        # Filter by specialty if provided (case-insensitive partial match)
+        if specialty and specialty.strip():
+            specialty = specialty.lower()
+            result = [
+                doc for doc in result 
+                if doc.get("specialty") and specialty in doc.get("specialty", "").lower()
+            ]
+            
+        # Return the filtered results (up to 5 doctors to avoid overwhelming responses)
+        return result[:5] if result else None
             
     def analyze_symptoms(self, symptoms: str) -> Dict[str, Any]:
         """
@@ -339,19 +453,12 @@ Hãy trả về kết quả phân tích dưới dạng JSON chính xác theo đ�
         Returns:
             List of doctor information dictionaries
         """
-        if not self.is_configured():
-            return [{"error": "Azure OpenAI client is not properly configured"}]
-        
-        # First try to get doctors from local data
-        doctors_in_dept = [
-            doc for doc in self.doctors_data.get("doctors", [])
-            if doc.get("department_code") == department_code
-        ]
-        
-        if doctors_in_dept:
-            return doctors_in_dept[:3]  # Return up to 3 doctors
-        
-        # If no doctors found in local data, use AI to generate
+        # Use the new get_doctor function
+        doctors = self.get_doctor(department_code=department_code)
+        if doctors:
+            return doctors
+            
+        # If no doctors found, fall back to AI generation
         try:
             # Get department name
             dept_name = "Unknown"
