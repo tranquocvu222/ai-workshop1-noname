@@ -766,15 +766,97 @@ def process_user_input(user_input: str):
             display_available_commands()
         return
     
-    # Check for doctor recommendation request
+    # Check for direct department-specific doctor queries
+    department_doctor_patterns = [
+        r"(bác sĩ|doctor|bs).*(khoa|chuyên khoa|department) ([\w\s]+)(?!\?)",
+        r"(bác sĩ|doctor|bs).*(về|chuyên về|chữa|khám) ([\w\s]+)(?!\?)",
+        r"ai.*(khám|chữa) ([\w\s]+)(?!\?)",
+        r"(bác sĩ|doctor) nào.*(phù hợp|thích hợp).*(khoa|chuyên khoa) ([\w\s]+)(?!\?)"
+    ]
+    
+    # Department name mapping for direct queries
+    department_keywords = {
+        'nội': 'D01',
+        'răng': 'D02',
+        'hàm mặt': 'D02',
+        'tai': 'D03',
+        'mũi': 'D03', 
+        'họng': 'D03',
+        'tai mũi họng': 'D03',
+        'mắt': 'D04',
+        'nhãn khoa': 'D04',
+        'da': 'D05',
+        'da liễu': 'D05',
+        'nhi': 'D06',
+        'trẻ em': 'D06'
+    }
+    
+    # Check if query is asking for doctors in a specific department
+    matched_dept_code = None
+    for pattern in department_doctor_patterns:
+        match = re.search(pattern, user_input.lower())
+        if match:
+            # Extract potential department name
+            potential_dept = match.group(len(match.groups()))
+            # Try to find a matching department
+            for keyword, code in department_keywords.items():
+                if keyword in potential_dept.lower():
+                    matched_dept_code = code
+                    break
+    
+    if matched_dept_code:
+        dept_info = scheduler.get_department_by_code(matched_dept_code)
+        if dept_info:
+            console.print(Panel(
+                f"Đang tìm thông tin bác sĩ khoa {dept_info['name']}...",
+                title="[bold]Thông tin bác sĩ[/bold]",
+                border_style="blue",
+                box=ROUNDED
+            ))
+            
+            # Store interaction in history
+            conversation_history.append({"role": "user", "content": user_input})
+            
+            # Display doctors using function call directly
+            doctors = ai_client.get_doctor(department_code=matched_dept_code)
+            
+            # Format the response
+            if doctors:
+                # Create doctor info response
+                result = f"Dựa trên yêu cầu của bạn, đây là các bác sĩ phù hợp tại khoa {dept_info['name']}:\n\n"
+                for doc in doctors:
+                    result += f"- {doc.get('name', 'N/A')} ({doc.get('id', 'N/A')})\n"
+                    result += f"  Chuyên khoa: {doc.get('specialty', 'N/A')}\n"
+                    result += f"  Kinh nghiệm: {doc.get('experience', 'N/A')}\n"
+                    result += f"  Học vấn: {doc.get('education', 'N/A')}\n\n"
+                
+                # Store the response in history
+                conversation_history.append({"role": "assistant", "content": result})
+                
+                # Display response and doctors
+                console.print("\n[bold green]Assistant:[/bold green]")
+                console.print(result)
+                
+                # Ask if user wants to book an appointment
+                if Confirm.ask("\nBạn có muốn đặt lịch khám với một trong những bác sĩ này không?", default=False):
+                    start_booking_process()
+            else:
+                response = f"Tôi không tìm thấy bác sĩ nào cho khoa {dept_info['name']}."
+                conversation_history.append({"role": "assistant", "content": response})
+                console.print("\n[bold green]Assistant:[/bold green]")
+                console.print(response)
+            
+            display_available_commands()
+            return
+    
+    # Check for doctor recommendation request that needs symptom analysis
     doctor_recommendation_patterns = [
         r"(gợi ý|giới thiệu|tư vấn|suggest|recommend).*(bác sĩ|doctor|bs)",
-        r"(bác sĩ|doctor|bs).*(phù hợp|thích hợp|nên gặp|nên khám)",
-        r"(ai|bác sĩ nào|doctor).*(khám|chữa|điều trị)",
+        r"(bác sĩ|doctor|bs).*(phù hợp|thích hợp|nên gặp|nên khám).*\?",
+        r"(ai|bác sĩ nào|doctor).*(khám|chữa|điều trị).*\?",
         r"(triệu chứng).*(bác sĩ|doctor|bs)",
         r"(bác sĩ).*(triệu chứng|symptom)",
         r"(danh sách|list) (bác sĩ|bac si|doctor)",
-        r"(bác sĩ|doctor) (ở|tại|của|trong) (khoa|chuyên khoa|department)",
     ]
     
     if any(re.search(pattern, user_input.lower()) for pattern in doctor_recommendation_patterns):
@@ -897,6 +979,48 @@ def process_user_input(user_input: str):
         
         # Display available commands even after error
         display_available_commands()
+
+def process_command(command: str) -> bool:
+    """
+    Process special commands.
+    
+    Args:
+        command: User input command
+        
+    Returns:
+        True if command was handled, False otherwise
+    """
+    # Strip leading '/' if present
+    cmd = command.lstrip("/").lower().strip()
+    
+    if cmd == "help":
+        display_help()
+        return True
+    
+    elif cmd == "book":
+        start_booking_process()
+        return True
+    
+    elif cmd == "doctors" or cmd == "list doctors":
+        # First check if user wants recommendations based on symptoms
+        if Confirm.ask("Bạn muốn được gợi ý bác sĩ dựa trên triệu chứng?", default=True):
+            symptoms = Prompt.ask("[bold cyan]Vui lòng mô tả triệu chứng của bạn[/bold cyan]")
+            recommend_doctors_based_on_symptoms(symptoms)
+        else:
+            # Display departments first
+            display_departments()
+            
+            # Ask for department
+            dept_code = Prompt.ask(
+                "[bold cyan]Vui lòng chọn mã khoa để xem danh sách bác sĩ (vd: D01)[/bold cyan]",
+                default="D01"
+            )
+            
+            # Display doctors for selected department
+            display_department_doctors(dept_code)
+        return True
+    
+    # ...existing code...
 
 @app.command()
 def main():

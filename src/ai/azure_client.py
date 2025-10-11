@@ -152,10 +152,18 @@ THÔNG TIN BỔ SUNG:
                 dept_code = dept.get("code", "")
                 department_info += f"- {dept_code}: {dept.get('name', '')}, {dept.get('description', '')}\n"
             
-            # Define system message with enhanced prompt engineering and doctor data directly included
-            system_message = {
-                "role": "system", 
-                "content": f"""Bạn là trợ lý y tế thông minh tại phòng khám đa khoa, tên là Med Assistant.
+            # Check if user's query is specifically about doctors in a department
+            department_keywords = [
+                'nội tổng hợp', 'răng hàm mặt', 'tai mũi họng', 'mắt', 'da liễu', 'nhi khoa',
+                'nội', 'răng', 'tai', 'mũi', 'họng', 'da', 'nhi'
+            ]
+            
+            doctor_keywords = ['bác sĩ', 'doctor', 'bs']
+            
+            # Detect if this is a direct doctor query
+            is_doctor_query = any(kw in user_input.lower() for kw in doctor_keywords) and any(kw in user_input.lower() for kw in department_keywords)
+            
+            system_message_content = f"""Bạn là trợ lý y tế thông minh tại phòng khám đa khoa, tên là Med Assistant.
 
 NHIỆM VỤ CỦA BẠN:
 1. Phân tích triệu chứng bệnh nhân và gợi ý chuyên khoa phù hợp
@@ -181,15 +189,21 @@ THÔNG TIN BỔ SUNG:
 DANH SÁCH CHUYÊN KHOA:
 {department_info}
 
-KHI CẦN TÌM THÔNG TIN BÁC SĨ:
-- Hãy sử dụng function getDoctor thay vì dùng danh sách có sẵn
-- Function getDoctor sẽ trả về thông tin bác sĩ dựa trên các tiêu chí như department_code hoặc specialty
-
 LƯU Ý QUAN TRỌNG:
-- Khi người dùng hỏi về bác sĩ, hãy gọi function getDoctor để lấy thông tin chính xác
-- Khi được yêu cầu gợi ý bác sĩ dựa trên triệu chứng, hãy phân tích triệu chứng, xác định chuyên khoa phù hợp, sau đó gọi getDoctor
+- Khi người dùng hỏi về bác sĩ, hãy GỌI NGAY function getDoctor để lấy thông tin chính xác
+- KHÔNG TRẢ LỜI CHUNG CHUNG khi được hỏi về bác sĩ cụ thể, mà phải gọi getDoctor
+- Khi người dùng hỏi về bác sĩ của một khoa cụ thể (ví dụ: "Bác sĩ khoa Mắt là ai?"), luôn gọi getDoctor với department_code tương ứng
 - LUÔN ưu tiên sử dụng function getDoctor thay vì trả lời rằng bạn không có thông tin
 """
+
+            # Add special instruction for direct doctor queries
+            if is_doctor_query:
+                system_message_content += "\n\nĐÂY LÀ CÂU HỎI VỀ BÁC SĨ TRONG MỘT KHOA CỤ THỂ. HÃY GỌI FUNCTION getDoctor NGAY LẬP TỨC.\n"
+            
+            # Define system message
+            system_message = {
+                "role": "system", 
+                "content": system_message_content
             }
             
             # Define functions for the model to call
@@ -202,7 +216,7 @@ LƯU Ý QUAN TRỌNG:
                         "properties": {
                             "department_code": {
                                 "type": "string",
-                                "description": "Mã khoa (e.g., D01, D02, D03, etc.)"
+                                "description": "Mã khoa (e.g., D01, D02, D03, D04, D05, D06, etc.)"
                             },
                             "doctor_id": {
                                 "type": "string",
@@ -225,6 +239,11 @@ LƯU Ý QUAN TRỌNG:
             # Add user's new message
             messages.append({"role": "user", "content": user_input})
             
+            # Set function call parameter based on query type
+            function_call = "auto"
+            if is_doctor_query:
+                function_call = {"name": "getDoctor"}
+            
             # Call Azure OpenAI API with function calling enabled
             response_stream = openai.ChatCompletion.create(
                 engine=self.deployment_name,
@@ -232,7 +251,7 @@ LƯU Ý QUAN TRỌNG:
                 max_tokens=500,
                 temperature=0.7,
                 functions=functions,
-                function_call="auto",
+                function_call=function_call,
                 stream=True
             )
             
