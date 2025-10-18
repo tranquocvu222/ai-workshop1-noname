@@ -1,0 +1,504 @@
+{
+  "faqs": [
+    {
+      "id": "FAQ001",
+      "question": "Phòng khám làm việc vào những ngày nào trong tuần?",
+      "answer": "Phòng khám làm việc từ thứ Hai đến thứ Bảy, từ 8:00 sáng đến 17:00 chiều. Chúng tôi nghỉ vào Chủ nhật và các ngày lễ."
+    },
+    {
+      "id": "FAQ002",
+      "question": "Chi phí khám bệnh tại phòng khám là bao nhiêu?",
+      "answer": "Chi phí khám bệnh tổng quát là 200.000 VND. Các dịch vụ chuyên khoa có giá từ 250.000 đến 500.000 VND tùy theo yêu cầu. Phòng khám chấp nhận thanh toán bằng tiền mặt và chuyển khoản."
+    },
+    {
+      "id": "FAQ003",
+      "question": "Tôi có cần đặt lịch hẹn trước khi đến khám không?",
+      "answer": "Chúng tôi khuyến khích bệnh nhân đặt lịch hẹn trước để giảm thời gian chờ đợi. Bạn có thể đặt lịch qua điện thoại, website hoặc ứng dụng di động của phòng khám."
+    },
+    {
+      "id": "FAQ004",
+      "question": "Phòng khám có chấp nhận bảo hiểm y tế không?",
+      "answer": "Có, phòng khám chấp nhận bảo hiểm y tế nhà nước và một số loại bảo hiểm tư nhân. Vui lòng mang theo thẻ bảo hiểm khi đến khám."
+    },
+    {
+      "id": "FAQ005",
+      "question": "Làm thế nào để tôi nhận kết quả xét nghiệm?",
+      "answer": "Kết quả xét nghiệm sẽ được thông báo qua email hoặc tin nhắn SMS. Bạn cũng có thể nhận kết quả trực tiếp tại quầy lễ tân hoặc xem trên ứng dụng di động của phòng khám."
+    },
+    {
+      "id": "FAQ006",
+      "question": "Tôi cần mang theo những gì khi đến khám?",
+      "answer": "Bạn nên mang theo CMND/CCCD, thẻ bảo hiểm y tế (nếu có), kết quả khám và xét nghiệm trước đây nếu có liên quan, và danh sách thuốc đang sử dụng."
+    },
+    {
+      "id": "FAQ007",
+      "question": "Phòng khám có những chuyên khoa nào?",
+      "answer": "Chúng tôi có các chuyên khoa: Nội tổng hợp, Răng hàm mặt, Tai mũi họng, Mắt, Da liễu, và Nhi khoa. Mỗi khoa đều có các bác sĩ chuyên môn cao."
+    },
+    {
+      "id": "FAQ008",
+      "question": "Làm sao để đặt lịch hẹn khám trực tuyến?",
+      "answer": "Bạn có thể đặt lịch khám trực tuyến thông qua trang web chính thức của phòng khám hoặc ứng dụng di động. Đăng nhập, chọn khoa và bác sĩ mong muốn, rồi chọn ngày giờ phù hợp."
+    },
+    {
+      "id": "FAQ009",
+      "question": "Tôi có thể hủy hoặc thay đổi lịch hẹn không?",
+      "answer": "Có, bạn có thể hủy hoặc thay đổi lịch hẹn ít nhất 24 giờ trước thời gian đã đặt. Vui lòng thực hiện qua website, ứng dụng hoặc gọi đến số hotline của phòng khám."
+    },
+    {
+      "id": "FAQ010",
+      "question": "Phòng khám có dịch vụ khám sức khỏe định kỳ không?",
+      "answer": "Có, chúng tôi cung cấp các gói khám sức khỏe định kỳ với nhiều mức giá khác nhau, từ gói cơ bản đến gói toàn diện. Mỗi gói đều bao gồm các xét nghiệm cần thiết và tư vấn sức khỏe."
+    },
+    {
+      "id": "FAQ011",
+      "question": "Có bác sĩ nào nói tiếng Anh tại phòng khám không?",
+      "answer": "Có, phòng khám có một số bác sĩ và nhân viên có thể giao tiếp bằng tiếng Anh. Vui lòng thông báo nhu cầu của bạn khi đặt lịch hẹn."
+    },
+    {
+      "id": "FAQ012",
+      "question": "Phòng khám có dịch vụ cấp cứu 24/7 không?",
+      "answer": "Không, chúng tôi không cung cấp dịch vụ cấp cứu 24/7. Trong trường hợp khẩn cấp, vui lòng đến bệnh viện gần nhất hoặc gọi 115 để được hỗ trợ y tế khẩn cấp."
+    },
+    {
+      "id": "FAQ013",
+      "question": "Tôi có thể lấy thêm thuốc mà không cần tái khám không?",
+      "answer": "Tùy thuộc vào loại thuốc và tình trạng bệnh. Một số thuốc yêu cầu bệnh nhân phải tái khám để đánh giá trước khi kê thêm. Vui lòng liên hệ với bác sĩ điều trị của bạn để biết thêm chi tiết."
+    },
+    {
+      "id": "FAQ014",
+      "question": "Thời gian chờ trung bình để được khám là bao lâu?",
+      "answer": "Thời gian chờ trung bình là khoảng 15-30 phút nếu bạn đã đặt lịch hẹn trước. Nếu không có lịch hẹn, thời gian chờ có thể kéo dài từ 30 phút đến 1 giờ tùy vào lượng bệnh nhân trong ngày."
+    },
+    {
+      "id": "FAQ015",
+      "question": "Phòng khám có cung cấp dịch vụ tư vấn từ xa không?",
+      "answer": "Có, chúng tôi cung cấp dịch vụ tư vấn từ xa qua video call hoặc điện thoại cho một số trường hợp nhất định. Vui lòng liên hệ trực tiếp để biết thêm chi tiết về dịch vụ này."
+    },
+    {
+      "id": "FAQ016",
+      "question": "Có bãi đỗ xe tại phòng khám không?",
+      "answer": "Có, phòng khám có bãi đỗ xe miễn phí cho bệnh nhân. Tuy nhiên, không gian có hạn nên chúng tôi khuyến khích sử dụng phương tiện công cộng hoặc dịch vụ đưa đón nếu có thể."
+    },
+    {
+      "id": "FAQ017",
+      "question": "Phòng khám có thực hiện xét nghiệm COVID-19 không?",
+      "answer": "Có, phòng khám có dịch vụ xét nghiệm COVID-19 bao gồm test nhanh kháng nguyên và RT-PCR. Vui lòng đặt lịch trước để tránh thời gian chờ đợi."
+    },
+    {
+      "id": "FAQ018",
+      "question": "Tôi có thể nhận hóa đơn điện tử cho việc khám chữa bệnh không?",
+      "answer": "Có, phòng khám cung cấp hóa đơn điện tử cho tất cả các dịch vụ. Bạn có thể yêu cầu gửi qua email hoặc in trực tiếp tại quầy thanh toán sau khi khám xong."
+    },
+    {
+      "id": "FAQ019",
+      "question": "Phòng khám có dịch vụ khám cho người cao tuổi không?",
+      "answer": "Có, chúng tôi có dịch vụ khám chuyên biệt cho người cao tuổi với các bác sĩ có chuyên môn về lão khoa. Người cao tuổi cũng được ưu tiên khi chờ đợi tại phòng khám."
+    },
+    {
+      "id": "FAQ020",
+      "question": "Làm thế nào để tôi có thể góp ý kiến về dịch vụ của phòng khám?",
+      "answer": "Bạn có thể góp ý kiến thông qua phiếu khảo sát tại quầy lễ tân, email góp ý, hoặc qua trang web và ứng dụng di động của phòng khám. Chúng tôi luôn trân trọng mọi ý kiến đóng góp."
+    },
+    {
+      "id": "FAQ021",
+      "question": "Phòng khám có bác sĩ nữ khoa không?",
+      "answer": "Có, phòng khám có các bác sĩ chuyên khoa Sản phụ khoa, bao gồm cả bác sĩ nữ để bệnh nhân có thể lựa chọn theo nhu cầu riêng tư."
+    },
+    {
+      "id": "FAQ022",
+      "question": "Tôi có thể lấy giấy chứng nhận sức khỏe tại phòng khám không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ khám và cấp giấy chứng nhận sức khỏe cho nhiều mục đích như đi học, đi làm, hoặc xin visa. Vui lòng mang theo CMND/CCCD và ảnh theo quy định."
+    },
+    {
+      "id": "FAQ023",
+      "question": "Trẻ em dưới mấy tuổi được khám miễn phí?",
+      "answer": "Trẻ em dưới 6 tuổi được khám miễn phí nếu có thẻ bảo hiểm y tế. Đối với các xét nghiệm và dịch vụ chuyên sâu, phụ huynh vui lòng tham khảo biểu giá chi tiết tại quầy lễ tân."
+    },
+    {
+      "id": "FAQ024",
+      "question": "Phòng khám có cung cấp dịch vụ tiêm chủng cho trẻ em không?",
+      "answer": "Có, phòng khám cung cấp đầy đủ các dịch vụ tiêm chủng theo lịch tiêm chủng quốc gia và các vắc-xin tự nguyện. Vui lòng đặt lịch trước khi đưa trẻ đến tiêm."
+    },
+    {
+      "id": "FAQ025",
+      "question": "Phòng khám có hỗ trợ thanh toán trả góp không?",
+      "answer": "Có, đối với các dịch vụ có giá trị cao, phòng khám có liên kết với một số ngân hàng để cung cấp dịch vụ thanh toán trả góp. Vui lòng liên hệ với bộ phận tài chính để biết thêm chi tiết."
+    },
+    {
+      "id": "FAQ026",
+      "question": "Có dịch vụ đưa đón bệnh nhân không?",
+      "answer": "Phòng khám có dịch vụ đưa đón đặc biệt cho bệnh nhân là người cao tuổi, người khuyết tật hoặc có nhu cầu đặc biệt. Vui lòng đăng ký trước ít nhất 24 giờ để chúng tôi sắp xếp."
+    },
+    {
+      "id": "FAQ027",
+      "question": "Làm thế nào để tôi có thể xem lại lịch sử khám bệnh của mình?",
+      "answer": "Bạn có thể xem lại lịch sử khám bệnh thông qua tài khoản cá nhân trên ứng dụng hoặc website của phòng khám. Ngoài ra, bạn cũng có thể yêu cầu bản sao hồ sơ y tế tại quầy lễ tân."
+    },
+    {
+      "id": "FAQ028",
+      "question": "Tôi cần làm gì khi có phản ứng phụ với thuốc?",
+      "answer": "Nếu bạn gặp phản ứng phụ với thuốc, hãy liên hệ ngay với phòng khám hoặc đến cơ sở y tế gần nhất. Đừng tự ý ngưng thuốc trước khi có chỉ định từ bác sĩ."
+    },
+    {
+      "id": "FAQ029",
+      "question": "Phòng khám có chuyên khoa tâm lý không?",
+      "answer": "Có, phòng khám có chuyên khoa tâm lý với các bác sĩ và nhà tâm lý học có kinh nghiệm. Dịch vụ này giúp điều trị các vấn đề về sức khỏe tâm thần như trầm cảm, lo âu, stress, v.v."
+    },
+    {
+      "id": "FAQ030",
+      "question": "Phòng khám có dịch vụ chăm sóc sau phẫu thuật không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ chăm sóc sau phẫu thuật, bao gồm thay băng, cắt chỉ, và theo dõi quá trình hồi phục. Bác sĩ sẽ hướng dẫn lịch tái khám cụ thể cho từng trường hợp."
+    },
+    {
+      "id": "FAQ031",
+      "question": "Phòng khám có thuốc giảm đau không kê đơn không?",
+      "answer": "Có, phòng khám có nhà thuốc cung cấp các loại thuốc giảm đau không kê đơn. Tuy nhiên, chúng tôi khuyến khích bệnh nhân tham khảo ý kiến của dược sĩ trước khi sử dụng bất kỳ loại thuốc nào."
+    },
+    {
+      "id": "FAQ032",
+      "question": "Làm thế nào để tôi được tư vấn dinh dưỡng?",
+      "answer": "Bạn có thể đăng ký dịch vụ tư vấn dinh dưỡng tại phòng khám. Các chuyên gia dinh dưỡng sẽ đánh giá tình trạng sức khỏe và xây dựng chế độ ăn phù hợp cho từng cá nhân."
+    },
+    {
+      "id": "FAQ033",
+      "question": "Phòng khám có phòng chờ dành cho trẻ em không?",
+      "answer": "Có, phòng khám có khu vực chờ riêng dành cho trẻ em với đồ chơi và sách truyện để giúp các em cảm thấy thoải mái hơn khi chờ đợi."
+    },
+    {
+      "id": "FAQ034",
+      "question": "Tôi có thể yêu cầu gặp riêng bác sĩ không có người thân đi cùng không?",
+      "answer": "Có, bạn có quyền yêu cầu gặp riêng bác sĩ. Phòng khám tôn trọng quyền riêng tư của bệnh nhân và sẽ tạo điều kiện cho những yêu cầu này nếu phù hợp với quy định."
+    },
+    {
+      "id": "FAQ035",
+      "question": "Phòng khám có dịch vụ lấy máu tại nhà không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ lấy mẫu xét nghiệm tại nhà cho những trường hợp đặc biệt như người già yếu, người khuyết tật hoặc bệnh nhân không thể di chuyển. Vui lòng liên hệ trước để đặt lịch."
+    },
+    {
+      "id": "FAQ036",
+      "question": "Tôi có thể đăng ký khám theo dõi thai kỳ tại đây không?",
+      "answer": "Có, phòng khám có dịch vụ khám thai và theo dõi thai kỳ toàn diện, bao gồm siêu âm, xét nghiệm và tư vấn dinh dưỡng cho thai phụ."
+    },
+    {
+      "id": "FAQ037",
+      "question": "Phòng khám có cung cấp dịch vụ vật lý trị liệu không?",
+      "answer": "Có, phòng khám có dịch vụ vật lý trị liệu với các chuyên gia và thiết bị hiện đại để điều trị các vấn đề về cơ xương khớp, phục hồi chức năng và giảm đau."
+    },
+    {
+      "id": "FAQ038",
+      "question": "Tôi cần chuẩn bị gì khi đến khám tổng quát?",
+      "answer": "Bạn nên nhịn ăn trước khi xét nghiệm máu (thường là 8-12 giờ), mang theo giấy tờ tùy thân, thẻ bảo hiểm, và kết quả khám trước đây nếu có. Ngoài ra, hãy mặc trang phục thoải mái và dễ thay đổi."
+    },
+    {
+      "id": "FAQ039",
+      "question": "Phòng khám có thiết bị chụp MRI không?",
+      "answer": "Có, phòng khám được trang bị máy chụp MRI hiện đại để chẩn đoán các bệnh lý về não, cột sống, khớp và các cơ quan nội tạng."
+    },
+    {
+      "id": "FAQ040",
+      "question": "Có cần thiết phải đi tiểu trước khi lấy mẫu nước tiểu không?",
+      "answer": "Không, khi cần xét nghiệm nước tiểu, bạn không nên đi tiểu trước. Nhân viên y tế sẽ hướng dẫn cụ thể cách lấy mẫu khi bạn đến phòng khám."
+    },
+    {
+      "id": "FAQ041",
+      "question": "Tôi có thể đổi bác sĩ khám nếu không hài lòng không?",
+      "answer": "Có, bạn có quyền yêu cầu thay đổi bác sĩ khám. Vui lòng thông báo với nhân viên lễ tân hoặc điều dưỡng để được hỗ trợ sắp xếp lại lịch hẹn với bác sĩ khác."
+    },
+    {
+      "id": "FAQ042",
+      "question": "Phòng khám có dịch vụ khám cho người nước ngoài không?",
+      "answer": "Có, phòng khám phục vụ cả bệnh nhân Việt Nam và người nước ngoài. Chúng tôi có đội ngũ nhân viên có thể giao tiếp bằng tiếng Anh và một số ngôn ngữ khác để hỗ trợ bệnh nhân quốc tế."
+    },
+    {
+      "id": "FAQ043",
+      "question": "Tôi có thể xin giấy xác nhận nghỉ ốm tại phòng khám không?",
+      "answer": "Có, bác sĩ có thể cấp giấy xác nhận nghỉ ốm nếu tình trạng sức khỏe của bạn yêu cầu nghỉ ngơi. Giấy này có giá trị pháp lý để bạn nộp cho công ty hoặc trường học."
+    },
+    {
+      "id": "FAQ044",
+      "question": "Phòng khám có dịch vụ châm cứu không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ châm cứu và y học cổ truyền kết hợp với y học hiện đại để điều trị nhiều loại bệnh lý, đặc biệt là các vấn đề về đau mạn tính."
+    },
+    {
+      "id": "FAQ045",
+      "question": "Làm thế nào để tôi biết kết quả xét nghiệm của mình có bình thường không?",
+      "answer": "Sau khi có kết quả xét nghiệm, bác sĩ sẽ giải thích chi tiết cho bạn về ý nghĩa của các chỉ số và tư vấn phương pháp điều trị nếu cần. Bạn cũng có thể đặt câu hỏi nếu có bất kỳ thắc mắc nào."
+    },
+    {
+      "id": "FAQ046",
+      "question": "Phòng khám có dịch vụ tư vấn kế hoạch hóa gia đình không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ tư vấn kế hoạch hóa gia đình, bao gồm các biện pháp tránh thai, kế hoạch mang thai và các vấn đề liên quan đến sức khỏe sinh sản."
+    },
+    {
+      "id": "FAQ047",
+      "question": "Tôi có thể mang theo người thân khi vào phòng khám không?",
+      "answer": "Có, bạn có thể mang theo một người thân hoặc người hỗ trợ vào phòng khám. Trong một số trường hợp đặc biệt hoặc trong thời điểm dịch bệnh, số lượng người đi cùng có thể bị hạn chế."
+    },
+    {
+      "id": "FAQ048",
+      "question": "Phòng khám có phục vụ thức ăn và đồ uống không?",
+      "answer": "Phòng khám có quầy café nhỏ phục vụ nước uống và một số đồ ăn nhẹ. Tuy nhiên, lưu ý rằng trước một số xét nghiệm, bạn có thể được yêu cầu nhịn ăn uống."
+    },
+    {
+      "id": "FAQ049",
+      "question": "Tôi có thể nhận tư vấn về việc cai thuốc lá tại phòng khám không?",
+      "answer": "Có, phòng khám có chương trình hỗ trợ cai thuốc lá với sự tư vấn của các bác sĩ chuyên khoa và có thể kê đơn các liệu pháp hỗ trợ nếu cần thiết."
+    },
+    {
+      "id": "FAQ050",
+      "question": "Phòng khám có wifi miễn phí không?",
+      "answer": "Có, phòng khám cung cấp wifi miễn phí cho bệnh nhân và người nhà. Bạn có thể yêu cầu thông tin đăng nhập tại quầy lễ tân."
+    },
+    {
+      "id": "FAQ051",
+      "question": "Tôi có thể tìm hiểu về kinh nghiệm và chuyên môn của bác sĩ trước khi đặt lịch không?",
+      "answer": "Có, thông tin về chuyên môn, kinh nghiệm và bằng cấp của các bác sĩ được hiển thị trên website và ứng dụng của phòng khám. Bạn cũng có thể yêu cầu thông tin này tại quầy lễ tân."
+    },
+    {
+      "id": "FAQ052",
+      "question": "Phòng khám có điều trị bệnh lý về da không?",
+      "answer": "Có, phòng khám có chuyên khoa Da liễu với các bác sĩ chuyên điều trị các bệnh lý về da, bao gồm mụn trứng cá, chàm, vảy nến, nấm da và các vấn đề thẩm mỹ da."
+    },
+    {
+      "id": "FAQ053",
+      "question": "Tôi có thể tiếp cận được hồ sơ y tế của mình như thế nào?",
+      "answer": "Bạn có quyền tiếp cận hồ sơ y tế của mình. Vui lòng liên hệ với bộ phận quản lý hồ sơ và xuất trình giấy tờ tùy thân để được hỗ trợ cung cấp bản sao hoặc xem trực tuyến qua tài khoản cá nhân."
+    },
+    {
+      "id": "FAQ054",
+      "question": "Phòng khám có dịch vụ chụp X-quang răng không?",
+      "answer": "Có, phòng khám có dịch vụ chụp X-quang răng và CT 3D hàm mặt để hỗ trợ chẩn đoán và lên kế hoạch điều trị cho các vấn đề về răng miệng."
+    },
+    {
+      "id": "FAQ055",
+      "question": "Tôi có thể đặt lịch khám cho người thân không?",
+      "answer": "Có, bạn có thể đặt lịch khám cho người thân. Vui lòng cung cấp thông tin cá nhân chính xác của họ khi đặt lịch và thông báo cho họ về thời gian khám."
+    },
+    {
+      "id": "FAQ056",
+      "question": "Phòng khám có dịch vụ kiểm tra thị lực không?",
+      "answer": "Có, phòng khám có chuyên khoa Mắt cung cấp dịch vụ kiểm tra thị lực toàn diện, bao gồm đo độ cận, viễn, loạn và các kiểm tra khác về sức khỏe mắt."
+    },
+    {
+      "id": "FAQ057",
+      "question": "Có được sử dụng điện thoại di động trong phòng khám không?",
+      "answer": "Bạn có thể sử dụng điện thoại di động ở khu vực chờ, nhưng vui lòng chuyển sang chế độ im lặng. Trong một số khu vực nhất định như phòng chụp X-quang hoặc MRI, việc sử dụng điện thoại có thể bị hạn chế."
+    },
+    {
+      "id": "FAQ058",
+      "question": "Phòng khám có cung cấp dịch vụ kiểm tra sức khỏe tiền hôn nhân không?",
+      "answer": "Có, phòng khám cung cấp gói kiểm tra sức khỏe tiền hôn nhân bao gồm các xét nghiệm máu, nước tiểu, kiểm tra gen và tư vấn về sức khỏe sinh sản cho các cặp đôi chuẩn bị kết hôn."
+    },
+    {
+      "id": "FAQ059",
+      "question": "Làm thế nào để tôi có thể thanh toán hóa đơn trực tuyến?",
+      "answer": "Bạn có thể thanh toán hóa đơn trực tuyến thông qua trang web hoặc ứng dụng di động của phòng khám bằng thẻ tín dụng, thẻ ghi nợ hoặc các ví điện tử như MoMo, ZaloPay, VNPay, v.v."
+    },
+    {
+      "id": "FAQ060",
+      "question": "Phòng khám có dịch vụ điều trị dị ứng không?",
+      "answer": "Có, phòng khám có chuyên gia về dị ứng và miễn dịch học có thể chẩn đoán và điều trị các loại dị ứng như dị ứng thực phẩm, dị ứng da, dị ứng mùa và hen suyễn."
+    },
+    {
+      "id": "FAQ061",
+      "question": "Tôi có thể đăng ký nhiều dịch vụ khám trong cùng một ngày không?",
+      "answer": "Có, bạn có thể đăng ký nhiều dịch vụ khám trong cùng một ngày nếu lịch trình cho phép. Nhân viên lễ tân sẽ giúp bạn sắp xếp lịch khám hợp lý để tiết kiệm thời gian."
+    },
+    {
+      "id": "FAQ062",
+      "question": "Phòng khám có dịch vụ kiểm tra sức khỏe cho trẻ sơ sinh không?",
+      "answer": "Có, phòng khám có dịch vụ kiểm tra sức khỏe cho trẻ sơ sinh và trẻ nhỏ, bao gồm các mốc phát triển, tiêm chủng và tư vấn dinh dưỡng cho bé."
+    },
+    {
+      "id": "FAQ063",
+      "question": "Tôi cần làm gì nếu quên mang theo thẻ bảo hiểm y tế?",
+      "answer": "Nếu quên mang theo thẻ bảo hiểm, bạn có thể cung cấp số thẻ bảo hiểm hoặc mã số BHYT. Trong một số trường hợp, bạn có thể phải thanh toán trước và được hoàn tiền sau khi nộp thẻ bảo hiểm."
+    },
+    {
+      "id": "FAQ064",
+      "question": "Phòng khám có điều trị các vấn đề về giấc ngủ không?",
+      "answer": "Có, phòng khám có chuyên gia về rối loạn giấc ngủ có thể chẩn đoán và điều trị các vấn đề như mất ngủ, ngưng thở khi ngủ và các rối loạn giấc ngủ khác."
+    },
+    {
+      "id": "FAQ065",
+      "question": "Tôi có được tư vấn về các loại vaccine trước khi đi du lịch nước ngoài không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ tư vấn và tiêm vaccine cho người đi du lịch nước ngoài. Bác sĩ sẽ tư vấn các loại vaccine cần thiết dựa trên quốc gia bạn đến và tình trạng sức khỏe của bạn."
+    },
+    {
+      "id": "FAQ066",
+      "question": "Phòng khám có phòng cho con bú riêng tư không?",
+      "answer": "Có, phòng khám có không gian riêng tư dành cho các bà mẹ cho con bú, được trang bị tiện nghi cần thiết để đảm bảo sự thoải mái và riêng tư."
+    },
+    {
+      "id": "FAQ067",
+      "question": "Tôi có thể tìm hiểu về các nghiên cứu lâm sàng đang diễn ra tại phòng khám không?",
+      "answer": "Có, phòng khám có tham gia một số nghiên cứu lâm sàng. Thông tin về các nghiên cứu đang tuyển người tham gia được đăng tải trên website chính thức và bảng thông báo tại phòng khám."
+    },
+    {
+      "id": "FAQ068",
+      "question": "Phòng khám có dịch vụ giám định y khoa không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ giám định y khoa cho các mục đích bảo hiểm, pháp lý hoặc yêu cầu từ cơ quan chức năng. Vui lòng liên hệ trước để biết chi tiết về quy trình và chi phí."
+    },
+    {
+      "id": "FAQ069",
+      "question": "Tôi có thể đổi lịch hẹn khám mà không mất phí không?",
+      "answer": "Có, bạn có thể đổi lịch hẹn khám mà không mất phí nếu thông báo trước ít nhất 24 giờ. Nếu hủy hoặc đổi lịch trong vòng 24 giờ trước giờ hẹn, có thể sẽ phát sinh phí thay đổi."
+    },
+    {
+      "id": "FAQ070",
+      "question": "Phòng khám có dịch vụ trị liệu tâm lý cho trẻ em không?",
+      "answer": "Có, phòng khám có chuyên gia tâm lý trẻ em có thể hỗ trợ các vấn đề như rối loạn phát triển, ADHD, lo âu, trầm cảm và các khó khăn về hành vi ở trẻ em và thanh thiếu niên."
+    },
+    {
+      "id": "FAQ071",
+      "question": "Tôi có thể đề nghị phòng khám cung cấp dịch vụ phiên dịch không?",
+      "answer": "Có, phòng khám có thể cung cấp dịch vụ phiên dịch cho một số ngôn ngữ phổ biến nếu được yêu cầu trước. Vui lòng thông báo nhu cầu này khi đặt lịch hẹn."
+    },
+    {
+      "id": "FAQ072",
+      "question": "Phòng khám có dịch vụ thẩm mỹ da không?",
+      "answer": "Có, phòng khám có dịch vụ thẩm mỹ da bao gồm điều trị mụn, nám, tàn nhang, trẻ hóa da và các thủ thuật thẩm mỹ không xâm lấn khác được thực hiện bởi các bác sĩ da liễu."
+    },
+    {
+      "id": "FAQ073",
+      "question": "Tôi có thể yêu cầu đơn thuốc được gửi trực tiếp đến nhà thuốc không?",
+      "answer": "Có, phòng khám có thể gửi đơn thuốc điện tử trực tiếp đến nhà thuốc đối tác. Bạn chỉ cần cung cấp thông tin nhà thuốc bạn muốn sử dụng khi kết thúc buổi khám."
+    },
+    {
+      "id": "FAQ074",
+      "question": "Phòng khám có thiết bị khám mắt tự động không?",
+      "answer": "Có, phòng khám được trang bị các thiết bị khám mắt tự động hiện đại để kiểm tra thị lực, đo nhãn áp và chụp đáy mắt, giúp việc khám mắt nhanh chóng và chính xác hơn."
+    },
+    {
+      "id": "FAQ075",
+      "question": "Tôi có thể nhận được báo cáo y tế bằng tiếng Anh không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ dịch thuật báo cáo y tế sang tiếng Anh hoặc một số ngôn ngữ khác với một khoản phí nhỏ. Vui lòng yêu cầu dịch vụ này tại quầy lễ tân."
+    },
+    {
+      "id": "FAQ076",
+      "question": "Phòng khám có dịch vụ kiểm tra sức khỏe trước khi đi làm không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ kiểm tra sức khỏe trước khi đi làm theo yêu cầu của công ty hoặc tổ chức. Chúng tôi cũng có các gói khám đặc biệt cho nhân viên văn phòng."
+    },
+    {
+      "id": "FAQ077",
+      "question": "Tôi cần thực hiện những xét nghiệm gì trước khi mang thai?",
+      "answer": "Các xét nghiệm trước khi mang thai thường bao gồm công thức máu, nhóm máu, kiểm tra kháng thể rubella, kiểm tra kháng thể viêm gan B, xét nghiệm HIV, và các xét nghiệm khác tùy thuộc vào tiền sử sức khỏe của bạn."
+    },
+    {
+      "id": "FAQ078",
+      "question": "Phòng khám có dịch vụ theo dõi huyết áp 24 giờ không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ theo dõi huyết áp 24 giờ (Holter huyết áp) để đánh giá chính xác tình trạng huyết áp của bệnh nhân trong các hoạt động hàng ngày và khi ngủ."
+    },
+    {
+      "id": "FAQ079",
+      "question": "Tôi có thể sử dụng kết quả xét nghiệm từ cơ sở y tế khác không?",
+      "answer": "Có thể, phòng khám chấp nhận kết quả xét nghiệm từ các cơ sở y tế uy tín khác nếu kết quả còn trong thời hạn hiệu lực (thường là 3-6 tháng tùy loại xét nghiệm). Bác sĩ sẽ xem xét và quyết định có cần thực hiện lại xét nghiệm hay không."
+    },
+    {
+      "id": "FAQ080",
+      "question": "Phòng khám có bác sĩ chuyên khoa tim mạch không?",
+      "answer": "Có, phòng khám có các bác sĩ chuyên khoa Tim mạch với kinh nghiệm trong chẩn đoán và điều trị các bệnh lý tim mạch như cao huyết áp, bệnh mạch vành, rối loạn nhịp tim và các bệnh lý tim mạch khác."
+    },
+    {
+      "id": "FAQ081",
+      "question": "Tôi cần làm gì nếu cảm thấy không hài lòng về dịch vụ?",
+      "answer": "Nếu bạn không hài lòng về dịch vụ, vui lòng thông báo với quản lý phòng khám hoặc gửi phản hồi qua email, trang web hoặc hộp góp ý. Chúng tôi cam kết xem xét mọi phản hồi để cải thiện chất lượng dịch vụ."
+    },
+    {
+      "id": "FAQ082",
+      "question": "Phòng khám có dịch vụ khám và điều trị vô sinh không?",
+      "answer": "Có, phòng khám có chuyên khoa Hiếm muộn với các bác sĩ chuyên về lĩnh vực này. Chúng tôi cung cấp các dịch vụ chẩn đoán, tư vấn và điều trị các vấn đề liên quan đến khả năng sinh sản cho cả nam và nữ."
+    },
+    {
+      "id": "FAQ083",
+      "question": "Tôi có thể đăng ký khám sức khỏe định kỳ cho cả gia đình không?",
+      "answer": "Có, phòng khám có các gói khám sức khỏe gia đình với mức giá ưu đãi khi đăng ký cho nhiều thành viên. Các gói này được thiết kế phù hợp với nhu cầu của từng độ tuổi và giới tính."
+    },
+    {
+      "id": "FAQ084",
+      "question": "Phòng khám có cung cấp dịch vụ khám sức khỏe cho doanh nghiệp không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ khám sức khỏe định kỳ cho doanh nghiệp với nhiều gói dịch vụ linh hoạt và mức giá ưu đãi. Chúng tôi có thể tổ chức khám tại phòng khám hoặc tại địa điểm của doanh nghiệp."
+    },
+    {
+      "id": "FAQ085",
+      "question": "Tôi có thể yêu cầu thêm thời gian tư vấn với bác sĩ không?",
+      "answer": "Có, nếu bạn cần thêm thời gian tư vấn, vui lòng thông báo khi đặt lịch hoặc trao đổi với bác sĩ trong buổi khám. Tuy nhiên, có thể phát sinh thêm chi phí nếu vượt quá thời gian khám tiêu chuẩn."
+    },
+    {
+      "id": "FAQ086",
+      "question": "Phòng khám có hỗ trợ thanh toán qua ví điện tử như MoMo, ZaloPay không?",
+      "answer": "Có, phòng khám chấp nhận thanh toán qua các ví điện tử phổ biến như MoMo, ZaloPay, VNPay và một số ứng dụng ngân hàng. Đây là phương thức thanh toán tiện lợi và nhanh chóng."
+    },
+    {
+      "id": "FAQ087",
+      "question": "Tôi có thể lấy kết quả xét nghiệm qua email không?",
+      "answer": "Có, bạn có thể đăng ký nhận kết quả xét nghiệm qua email nếu đây là lựa chọn bạn mong muốn. Tuy nhiên, đối với một số kết quả nhạy cảm, bạn có thể được yêu cầu xác nhận danh tính trước khi nhận kết quả."
+    },
+    {
+      "id": "FAQ088",
+      "question": "Phòng khám có dịch vụ giao thuốc tận nhà không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ giao thuốc tận nhà trong phạm vi thành phố với một khoản phí nhỏ. Dịch vụ này đặc biệt hữu ích cho bệnh nhân lớn tuổi hoặc có khó khăn trong việc di chuyển."
+    },
+    {
+      "id": "FAQ089",
+      "question": "Tôi có thể đặt lịch khám vào buổi tối hoặc cuối tuần không?",
+      "answer": "Phòng khám có dịch vụ khám vào buổi tối từ thứ Hai đến thứ Sáu (đến 20:00) và cả ngày thứ Bảy. Chúng tôi không làm việc vào Chủ nhật và các ngày lễ trừ trường hợp có thông báo đặc biệt."
+    },
+    {
+      "id": "FAQ090",
+      "question": "Phòng khám có dịch vụ điều trị bệnh lý về giọng nói không?",
+      "answer": "Có, phòng khám có chuyên gia về âm ngữ trị liệu có thể chẩn đoán và điều trị các vấn đề về giọng nói, nói lắp, khó phát âm và các rối loạn giao tiếp khác ở cả trẻ em và người lớn."
+    },
+    {
+      "id": "FAQ091",
+      "question": "Tôi cần mang theo gì khi đến khám theo diện bảo hiểm y tế?",
+      "answer": "Khi khám theo diện bảo hiểm y tế, bạn cần mang theo thẻ BHYT còn hạn sử dụng, giấy chuyển viện/giấy giới thiệu (nếu có), CMND/CCCD và giấy tờ liên quan đến tình trạng bệnh trước đây."
+    },
+    {
+      "id": "FAQ092",
+      "question": "Phòng khám có điều trị các bệnh lý về cột sống không?",
+      "answer": "Có, phòng khám có chuyên khoa Cột sống với các bác sĩ và chuyên gia vật lý trị liệu có kinh nghiệm trong điều trị đau lưng, thoát vị đĩa đệm, vẹo cột sống và các vấn đề khác liên quan đến cột sống."
+    },
+    {
+      "id": "FAQ093",
+      "question": "Tôi có thể yêu cầu bác sĩ kê đơn thuốc dài ngày không?",
+      "answer": "Tùy thuộc vào loại thuốc và tình trạng bệnh, bác sĩ có thể kê đơn thuốc dài ngày (thường là 1-3 tháng) cho các bệnh mạn tính đã được kiểm soát tốt. Việc này giúp bệnh nhân giảm số lần tái khám."
+    },
+    {
+      "id": "FAQ094",
+      "question": "Phòng khám có dịch vụ cấp cứu nhẹ không?",
+      "answer": "Có, phòng khám có dịch vụ cấp cứu nhẹ trong giờ làm việc cho các trường hợp không nghiêm trọng như sốt cao, đau đầu dữ dội, hoặc các vết thương nhỏ cần khâu. Tuy nhiên, các trường hợp cấp cứu nghiêm trọng nên đến bệnh viện."
+    },
+    {
+      "id": "FAQ095",
+      "question": "Tôi có thể nhận tư vấn về việc tiêm chủng cho người lớn không?",
+      "answer": "Có, phòng khám cung cấp dịch vụ tư vấn và tiêm chủng cho người lớn, bao gồm các loại vaccine như cúm, viêm gan, uốn ván, HPV và các loại vaccine khác theo khuyến nghị cho từng độ tuổi và tình trạng sức khỏe."
+    },
+    {
+      "id": "FAQ096",
+      "question": "Phòng khám có dịch vụ tư vấn dinh dưỡng cho bệnh nhân tiểu đường không?",
+      "answer": "Có, phòng khám có chuyên gia dinh dưỡng có thể tư vấn chế độ ăn uống phù hợp cho bệnh nhân tiểu đường, giúp kiểm soát đường huyết và cải thiện sức khỏe tổng thể."
+    },
+    {
+      "id": "FAQ097",
+      "question": "Tôi có thể đặt lịch khám online vào buổi tối sau giờ làm việc không?",
+      "answer": "Có, hệ thống đặt lịch online của phòng khám hoạt động 24/7, vì vậy bạn có thể đặt lịch bất kỳ lúc nào. Nhân viên sẽ xác nhận lịch hẹn trong giờ làm việc của ngày làm việc tiếp theo."
+    },
+    {
+      "id": "FAQ098",
+      "question": "Phòng khám có chấp nhận bệnh nhân không có hẹn trước không?",
+      "answer": "Có, phòng khám có nhận bệnh nhân không có hẹn trước, tuy nhiên thời gian chờ có thể kéo dài hơn so với bệnh nhân đã đặt lịch. Để được phục vụ tốt nhất, chúng tôi luôn khuyến khích đặt lịch trước."
+    },
+    {
+      "id": "FAQ099",
+      "question": "Tôi có thể nhận tư vấn về các loại thuốc không kê đơn phù hợp cho tình trạng của mình không?",
+      "answer": "Có, dược sĩ tại nhà thuốc của phòng khám có thể tư vấn cho bạn về các loại thuốc không kê đơn phù hợp cho các triệu chứng nhẹ như cảm cúm, đau đầu, hoặc dị ứng theo mùa."
+    },
+    {
+      "id": "FAQ100",
+      "question": "Phòng khám có hỗ trợ cho bệnh nhân khuyết tật không?",
+      "answer": "Có, phòng khám có đầy đủ cơ sở vật chất thân thiện với người khuyết tật, bao gồm lối đi cho xe lăn, nhà vệ sinh đặc biệt và nhân viên được đào tạo để hỗ trợ bệnh nhân có nhu cầu đặc biệt."
+    }
+  ]
+}
